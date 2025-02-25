@@ -19,3 +19,7 @@ type UserNutritionAndFitnessProfile struct {
 	DietaryPreferences string  `json:"dietary_preferences"`
 	TrainingGoals      string  `json:"training_goals"`
 }
+
+type RecommendationResponse struct {
+	Recommendations string `json:"recommendations"`
+}

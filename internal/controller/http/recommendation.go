@@ -36,7 +36,7 @@ func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	str, err := h.recommendation.GetRecommNutriAL(userNFP)
+	recommendations, err := h.recommendation.GetRecommNutriAL(userNFP)
 	if err != nil {
 		//
 		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
@@ -45,8 +45,6 @@ func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	_ = str
-
 	//
-	//response(w, entitytask.IdTask{ID: strconv.Itoa(id)}, http.StatusCreated)
+	response(w, entity.RecommendationResponse{Recommendations: recommendations}, http.StatusCreated)
 }
