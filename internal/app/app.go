@@ -11,6 +11,8 @@ import (
 
 	"github.com/probuborka/NutriAI/internal/config"
 	handlers "github.com/probuborka/NutriAI/internal/controller/http"
+	"github.com/probuborka/NutriAI/internal/usecase/recommendation"
+	"github.com/probuborka/NutriAI/pkg/gigachat"
 	"github.com/probuborka/NutriAI/pkg/logger"
 	"github.com/probuborka/NutriAI/pkg/route"
 )
@@ -23,8 +25,14 @@ func Run() {
 		return
 	}
 
+	//gigachat
+	gigaChatClient := gigachat.New(cfg.Api.Key)
+
+	//service
+	recommendation := recommendation.New(gigaChatClient)
+
 	//handlers
-	handlers := handlers.New()
+	handlers := handlers.New(recommendation)
 
 	//http server
 	server := route.New(cfg.HTTP.Port, handlers.Init())

@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 	"net/url"
 
@@ -17,7 +16,7 @@ const (
 
 type AccessToken struct {
 	AccessToken string `json:"access_token"`
-	ExpiresAt   string `json:"expires_at"`
+	ExpiresAt   int    `json:"expires_at"`
 }
 
 func (gc *GigaChatClient) getAccessToken(scope string) error {
@@ -41,7 +40,7 @@ func (gc *GigaChatClient) getAccessToken(scope string) error {
 
 	// Установка заголовков
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gc.apiKey)) // ZDMxOTdmNjUtMmY3MS00MTdjLThkY2YtODljY2RiZGI1ZDZkOmEwN2Q5YjhkLWVlNDAtNDUzZS04MTk1LTYzMDQxODU0NjYwMA==
+	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gc.apiKey))
 	req.Header.Set("RqUID", uuid)
 
 	// Выполнение HTTP-запроса
@@ -54,16 +53,28 @@ func (gc *GigaChatClient) getAccessToken(scope string) error {
 	defer resp.Body.Close()
 
 	// Чтение ответа
-	responseBody, err := io.ReadAll(resp.Body)
+	// responseBody, err := io.ReadAll(resp.Body)
+	// if err != nil {
+	// 	return err
+	// 	//log.Fatalf("Ошибка чтения тела ответа: %v", err)
+	// }
+
+	//
+	var buf bytes.Buffer
+
+	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
+		//
+		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
+		//
+		//logger.Error(err)
 		return err
-		//log.Fatalf("Ошибка чтения тела ответа: %v", err)
 	}
 
 	//
 	var accessToken AccessToken
 
-	err = json.Unmarshal(responseBody, &accessToken)
+	err = json.Unmarshal(buf.Bytes(), &accessToken)
 	if err != nil {
 		//
 		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)

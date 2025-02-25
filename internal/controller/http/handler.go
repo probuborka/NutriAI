@@ -5,14 +5,14 @@ import (
 )
 
 type handler struct {
-	// task           serviceTask
+	recommendation serviceRecommendation
 	// authentication serviceAuthentication
 }
 
-func New() *handler {
+func New(recommendation serviceRecommendation) *handler {
 	//cfg = cfgAuth
 	return &handler{
-		// task:           task,
+		recommendation: recommendation,
 		// authentication: authentication,
 	}
 }
@@ -23,7 +23,7 @@ func (h handler) Init() http.Handler {
 	//web
 	//r.Handle("/", http.FileServer(http.Dir(entityconfig.WebDir)))
 
-	//next date
+	//recommendation
 	r.HandleFunc("GET /api/recommendation", h.getRecommendation)
 
 	//create task

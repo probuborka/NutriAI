@@ -6,7 +6,7 @@ type GigaChatClient struct {
 	accessToken string
 }
 
-func NewGigaChatClient(apiKey string) *GigaChatClient {
+func New(apiKey string) *GigaChatClient {
 	return &GigaChatClient{
 		// baseURL: baseURL,
 		apiKey: apiKey,

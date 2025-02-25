@@ -4,6 +4,7 @@ import "github.com/probuborka/NutriAI/internal/entity"
 
 type Config struct {
 	HTTP entity.HTTPConfig
+	Api  entity.Api
 	// DB   entityconfig.DBConfig
 	// Auth entityconfig.Authentication
 }
@@ -19,6 +20,8 @@ func New() (*Config, error) {
 	// }
 	port := entity.Port
 
+	key := entity.ApiKey
+
 	// //db
 	// dbFile := os.Getenv("TODO_DBFILE")
 	// if dbFile == "" {
@@ -29,6 +32,7 @@ func New() (*Config, error) {
 
 	return &Config{
 		HTTP: entity.HTTPConfig{Port: port},
+		Api:  entity.Api{Key: key},
 		// DB: entityconfig.DBConfig{
 		// 	Driver: dbDriver,
 		// 	File:   dbFile,

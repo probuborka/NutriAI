@@ -4,18 +4,12 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io"
 	"net/http"
 )
 
 const (
 	urlGenerateText = "https://gigachat.devices.sberbank.ru/api/v1/chat/completions"
 )
-
-type Messages struct {
-	Role    string `json:"role"`
-	Content string `json:"content"`
-}
 
 type RequestBody struct {
 	Model           string     `json:"model"`
@@ -24,47 +18,65 @@ type RequestBody struct {
 	Messages        []Messages `json:"messages"`
 }
 
-func (gc *GigaChatClient) GenerateText() (error, any) {
+type Messages struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
+// ChatCompletionResult описывает результат генерации текста моделью
+type ChatCompletionResult struct {
+	Choices []Choice         `json:"choices"`
+	Created int              `json:"created"`
+	Model   string           `json:"model"`
+	Object  string           `json:"object"`
+	Usage   UsageInformation `json:"usage"`
+}
+
+// Choice представляет один выбор модели
+type Choice struct {
+	Message      MessageResult `json:"message"`
+	Index        int           `json:"index"`
+	FinishReason string        `json:"finish_reason"`
+}
+
+// Message содержит контент и роль
+type MessageResult struct {
+	Content string `json:"content"`
+	Role    string `json:"role"`
+}
+
+// UsageInformation содержит информацию об использовании токенов
+type UsageInformation struct {
+	PromptTokens          int `json:"prompt_tokens"`
+	CompletionTokens      int `json:"completion_tokens"`
+	TotalTokens           int `json:"total_tokens"`
+	PreCachedPromptTokens int `json:"pre_cached_prompt_tokens"`
+}
+
+func (gc *GigaChatClient) GenerateText(body RequestBody) (error, ChatCompletionResult) {
 
 	//
 	if gc.accessToken == "" {
 		if err := gc.getAccessToken("GIGACHAT_API_PERS"); err != nil {
-			return err, nil
+			return err, ChatCompletionResult{}
 		}
 	}
 
 	// Определение URL-адреса конечной точки
 	urlEndpoint := urlGenerateText
 
-	// body
-	body := RequestBody{
-		Model:           "GigaChat",
-		Stream:          false,
-		Update_interval: 0,
-		Messages: []Messages{
-			{
-				Role:    "system", // контекст
-				Content: "Отвечай как научный сотрудник",
-			},
-			{
-				Role:    "user", // контекст
-				Content: "Напиши 5 вариантов названий для космической станции",
-			},
-		},
-	}
-
 	// Преобразуем структуру в JSON
 	jsonData, err := json.Marshal(body)
 	if err != nil {
 		//fmt.Println("Ошибка маршалинга:", err)
-		return err, nil
+		return err, ChatCompletionResult{}
 	}
 
 	// Создание нового HTTP-запроса
 	req, err := http.NewRequest("POST", urlEndpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
 		//log.Fatalf("Ошибка создания HTTP-запроса: %v", err)
-		return err, nil
+		return err, ChatCompletionResult{}
 	}
 
 	// Установка заголовков
@@ -77,15 +89,40 @@ func (gc *GigaChatClient) GenerateText() (error, any) {
 	resp, err := client.Do(req)
 	if err != nil {
 		//log.Fatalf("Ошибка выполнения HTTP-запроса: %v", err)
-		return err, nil
+		return err, ChatCompletionResult{}
 	}
 	defer resp.Body.Close()
 
 	// Чтение ответа
-	responseBody, err := io.ReadAll(resp.Body)
+	// responseBody, err := io.ReadAll(resp.Body)
+	// if err != nil {
+	// 	//log.Fatalf("Ошибка чтения тела ответа: %v", err)
+	// 	return err, ChatCompletionResult{}
+	// }
+
+	//
+	var buf bytes.Buffer
+
+	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
-		//log.Fatalf("Ошибка чтения тела ответа: %v", err)
-		return err, nil
+		//
+		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
+		//
+		//logger.Error(err)
+		return err, ChatCompletionResult{}
+	}
+
+	//
+	var chatResult ChatCompletionResult
+
+	err = json.Unmarshal(buf.Bytes(), &chatResult)
+	if err != nil {
+		//
+		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
+		//
+		return err, ChatCompletionResult{}
+		//log.Fatalf("Ошибка: %v", err)
+		//return
 	}
 
 	//_ = responseBody
@@ -95,5 +132,5 @@ func (gc *GigaChatClient) GenerateText() (error, any) {
 	//fmt.Printf("Тело ответа: %s\n", string(responseBody))
 
 	//
-	return nil, responseBody
+	return nil, chatResult //responseBody
 }
