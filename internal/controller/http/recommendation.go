@@ -6,6 +6,10 @@ import (
 
 func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 
+	err := 1
+
+	_ = err
+
 	// now := r.FormValue("now")
 	// nowDate, err := time.Parse(entityconfig.Format1, now)
 	// if err != nil {
