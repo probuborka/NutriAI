@@ -19,7 +19,7 @@ type AccessToken struct {
 	ExpiresAt   int    `json:"expires_at"`
 }
 
-func (gc *GigaChatClient) getAccessToken(scope string) error {
+func (gc *Client) getAccessToken(scope string) error {
 	// Определение URL-адреса конечной точки
 	urlEndpoint := urlAccessToken
 	uuid := uuid.New().String()

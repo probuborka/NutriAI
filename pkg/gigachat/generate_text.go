@@ -53,7 +53,7 @@ type UsageInformation struct {
 	PreCachedPromptTokens int `json:"pre_cached_prompt_tokens"`
 }
 
-func (gc *GigaChatClient) GenerateText(body RequestBody) (ChatCompletionResult, error) {
+func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
 
 	//
 	if gc.accessToken == "" {

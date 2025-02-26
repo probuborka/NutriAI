@@ -10,6 +10,7 @@ package entity
 // DietaryPreferences: Предпочтения в питании.
 // TrainingGoals: Цели тренировок.
 type UserNutritionAndFitnessProfile struct {
+	UserID             string  `json:"user_id"`
 	Age                int     `json:"age"`
 	Gender             string  `json:"gender"`
 	Height             float32 `json:"height"`

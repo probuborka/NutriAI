@@ -11,10 +11,13 @@ import (
 
 	"github.com/probuborka/NutriAI/internal/config"
 	handlers "github.com/probuborka/NutriAI/internal/controller/http"
+	"github.com/probuborka/NutriAI/internal/infrastructure/gigachat"
+	"github.com/probuborka/NutriAI/internal/infrastructure/redis"
 	"github.com/probuborka/NutriAI/internal/usecase/recommendation"
-	"github.com/probuborka/NutriAI/pkg/gigachat"
+	gigachatclient "github.com/probuborka/NutriAI/pkg/gigachat"
 	"github.com/probuborka/NutriAI/pkg/logger"
 	"github.com/probuborka/NutriAI/pkg/route"
+	redisclient "github.com/redis/go-redis/v9"
 )
 
 func Run() {
@@ -25,14 +28,30 @@ func Run() {
 		return
 	}
 
+	//gigachat client
+	gigaChatClient := gigachatclient.New(cfg.Api.Key)
+
+	//redis client
+	redisClient := redisclient.NewClient(&redisclient.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+		DB:       0,
+	})
+
 	//gigachat
-	gigaChatClient := gigachat.New(cfg.Api.Key)
+	gigaChatRecommendation := gigachat.NewRecommendation(gigaChatClient)
+
+	//cach
+	cacheRecommendation := redis.NewRecommendation(redisClient)
 
 	//service
-	recommendation := recommendation.New(gigaChatClient)
+	useCaseRecommendation := recommendation.New(
+		gigaChatRecommendation,
+		cacheRecommendation,
+	)
 
 	//handlers
-	handlers := handlers.New(recommendation)
+	handlers := handlers.New(useCaseRecommendation)
 
 	//http server
 	server := route.New(cfg.HTTP.Port, handlers.Init())

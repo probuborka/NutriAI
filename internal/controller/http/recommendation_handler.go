@@ -2,6 +2,7 @@ package http
 
 import (
 	"bytes"
+	"context"
 	"encoding/json"
 	"net/http"
 
@@ -10,7 +11,7 @@ import (
 )
 
 type serviceRecommendation interface {
-	GetRecommNutriAL(userNFP entity.UserNutritionAndFitnessProfile) (string, error)
+	GetRecommendation(ctx context.Context, userNFP entity.UserNutritionAndFitnessProfile) (string, error)
 }
 
 func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
@@ -36,7 +37,7 @@ func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	recommendations, err := h.recommendation.GetRecommNutriAL(userNFP)
+	recommendations, err := h.recommendation.GetRecommendation(r.Context(), userNFP)
 	if err != nil {
 		//
 		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)

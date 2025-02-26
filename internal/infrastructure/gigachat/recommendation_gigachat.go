@@ -1,4 +1,4 @@
-package recommendation
+package gigachat
 
 import (
 	"fmt"
@@ -7,36 +7,30 @@ import (
 	"github.com/probuborka/NutriAI/pkg/gigachat"
 )
 
-type gigaChat interface {
-	GenerateText(body gigachat.RequestBody) (gigachat.ChatCompletionResult, error)
+type gigachatRecommendation struct {
+	client *gigachat.Client
 }
 
-type service struct {
-	gigachat gigaChat
-}
-
-func New(gigachat gigaChat) service {
-	return service{
-		gigachat: gigachat,
+func NewRecommendation(client *gigachat.Client) *gigachatRecommendation {
+	return &gigachatRecommendation{
+		client: client,
 	}
 }
 
-func (s service) GetRecommNutriAL(userNFP entity.UserNutritionAndFitnessProfile) (string, error) {
+func (gch gigachatRecommendation) Recommendation(userNFP entity.UserNutritionAndFitnessProfile) (string, error) {
 
-	//
 	contentSystem := `Отвечай как нутрициолог`
 
-	//
 	contentUser := fmt.Sprintf(`
-	Дай персонализированные рекомендации на основе данных от пользователя: 
-	Пол: %s, 
-	Возраст: %v лет, 
-	Рост: %v см, 
-	Текущий вес: %v, 
-	Желаемый вес: %v, 
-	Уровень физической активности пользователя: %s, 
-	Предпочтения в питании: %s
-	Цель: %s`,
+		Дай персонализированные рекомендации на основе данных от пользователя: 
+		Пол: %s, 
+		Возраст: %v лет, 
+		Рост: %v см, 
+		Текущий вес: %v, 
+		Желаемый вес: %v, 
+		Уровень физической активности пользователя: %s, 
+		Предпочтения в питании: %s
+		Цель: %s`,
 		userNFP.Gender,             // Пол пользователя
 		userNFP.Age,                // Возраст пользователя
 		userNFP.Height,             // Рост пользователя
@@ -64,7 +58,7 @@ func (s service) GetRecommNutriAL(userNFP entity.UserNutritionAndFitnessProfile)
 		},
 	}
 
-	result, err := s.gigachat.GenerateText(message)
+	result, err := gch.client.GenerateText(message)
 	if err != nil {
 		return "", err
 	}
@@ -76,4 +70,5 @@ func (s service) GetRecommNutriAL(userNFP entity.UserNutritionAndFitnessProfile)
 	}
 
 	return str, err
+
 }

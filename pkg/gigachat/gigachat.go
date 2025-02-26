@@ -1,13 +1,13 @@
 package gigachat
 
-type GigaChatClient struct {
+type Client struct {
 	// baseURL string
 	apiKey      string
 	accessToken string
 }
 
-func New(apiKey string) *GigaChatClient {
-	return &GigaChatClient{
+func New(apiKey string) *Client {
+	return &Client{
 		// baseURL: baseURL,
 		apiKey: apiKey,
 	}
