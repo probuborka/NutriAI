@@ -1,6 +1,10 @@
 package config
 
-import "github.com/probuborka/NutriAI/internal/entity"
+import (
+	"os"
+
+	"github.com/probuborka/NutriAI/internal/entity"
+)
 
 type Config struct {
 	HTTP entity.HTTPConfig
@@ -20,7 +24,10 @@ func New() (*Config, error) {
 	// }
 	port := entity.Port
 
-	key := entity.ApiKey
+	key := os.Getenv("API_KEY")
+	if key == "" {
+		key = entity.ApiKey
+	}
 
 	// //db
 	// dbFile := os.Getenv("TODO_DBFILE")
