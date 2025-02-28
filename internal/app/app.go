@@ -31,14 +31,18 @@ func Run() {
 	}
 
 	//gigachat client
-	gigaChatClient := gigachatclient.New(cfg.Api.Key)
+	gigaChatClient := gigachatclient.New(
+		cfg.Api.Key,
+	)
 
 	//redis client
-	redisClient := redisclient.NewClient(&redisclient.Options{
-		Addr:     "localhost:6379",
-		Password: "",
-		DB:       0,
-	})
+	redisClient := redisclient.NewClient(
+		&redisclient.Options{
+			Addr:     "localhost:6379",
+			Password: "",
+			DB:       0,
+		},
+	)
 
 	//prometheus
 	prometheus := prometheus.NewPrometheus()
@@ -58,7 +62,7 @@ func Run() {
 		prometheus,
 	)
 
-	useCaseRecommendation := recommendation.New(
+	useCaseRecommendation := recommendation.NewRecommendationUseCase(
 		gigaChatRecommendation,
 		cacheRecommendation,
 	)

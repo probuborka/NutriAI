@@ -56,9 +56,8 @@ func (h handler) Init() http.Handler {
 
 	//
 	stack := []middleware{
-		// logging,
-		// authentication,
 		h.RecordMetrics,
+		logging,
 	}
 
 	hand := compileMiddleware(r, stack)

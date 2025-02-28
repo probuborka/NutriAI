@@ -20,7 +20,7 @@ type service struct {
 	cache cache
 }
 
-func New(ai ai, cache cache) service {
+func NewRecommendationUseCase(ai ai, cache cache) service {
 	return service{
 		ai:    ai,
 		cache: cache,

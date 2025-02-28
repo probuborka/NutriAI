@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/probuborka/NutriAI/internal/entity"
+	"github.com/probuborka/NutriAI/pkg/logger"
 )
 
 type middleware func(http.Handler) http.Handler
@@ -63,12 +64,12 @@ func (h handler) RecordMetrics(next http.Handler) http.Handler {
 	})
 }
 
-// func logging(next http.Handler) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-// 		logger.Infof("%s %s %s", req.Method, req.RequestURI, time.Now())
-// 		next.ServeHTTP(w, req)
-// 	})
-// }
+func logging(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
+		logger.Infof("%s %s %s", req.Method, req.RequestURI, time.Now())
+		next.ServeHTTP(w, req)
+	})
+}
 
 // func authentication(next http.Handler) http.Handler {
 // 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
