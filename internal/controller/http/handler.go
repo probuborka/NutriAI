@@ -25,7 +25,7 @@ func (h handler) Init() http.Handler {
 	r := http.NewServeMux()
 
 	// HTTP-обработчик для метрик
-	http.Handle("/metrics", promhttp.Handler())
+	r.Handle("/metrics", promhttp.Handler())
 
 	//web
 	//r.Handle("/", http.FileServer(http.Dir(entityconfig.WebDir)))
