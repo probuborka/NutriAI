@@ -2,23 +2,30 @@ package http
 
 import (
 	"net/http"
+
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 type handler struct {
 	recommendation serviceRecommendation
+	metric         metric
 	// authentication serviceAuthentication
 }
 
-func New(recommendation serviceRecommendation) *handler {
+func New(recommendation serviceRecommendation, metric metric) *handler {
 	//cfg = cfgAuth
 	return &handler{
 		recommendation: recommendation,
+		metric:         metric,
 		// authentication: authentication,
 	}
 }
 
 func (h handler) Init() http.Handler {
 	r := http.NewServeMux()
+
+	// HTTP-обработчик для метрик
+	http.Handle("/metrics", promhttp.Handler())
 
 	//web
 	//r.Handle("/", http.FileServer(http.Dir(entityconfig.WebDir)))
@@ -48,13 +55,14 @@ func (h handler) Init() http.Handler {
 	// r.HandleFunc("POST /api/signin", h.password)
 
 	//
-	// stack := []middleware{
-	// 	logging,
-	// 	authentication,
-	// }
+	stack := []middleware{
+		// logging,
+		// authentication,
+		h.RecordMetrics,
+	}
 
-	// hand := compileMiddleware(r, stack)
+	hand := compileMiddleware(r, stack)
 
-	// return hand
-	return r
+	return hand
+	//return r
 }

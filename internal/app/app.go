@@ -12,7 +12,9 @@ import (
 	"github.com/probuborka/NutriAI/internal/config"
 	handlers "github.com/probuborka/NutriAI/internal/controller/http"
 	"github.com/probuborka/NutriAI/internal/infrastructure/gigachat"
+	"github.com/probuborka/NutriAI/internal/infrastructure/prometheus"
 	"github.com/probuborka/NutriAI/internal/infrastructure/redis"
+	"github.com/probuborka/NutriAI/internal/usecase/metric"
 	"github.com/probuborka/NutriAI/internal/usecase/recommendation"
 	gigachatclient "github.com/probuborka/NutriAI/pkg/gigachat"
 	"github.com/probuborka/NutriAI/pkg/logger"
@@ -38,23 +40,40 @@ func Run() {
 		DB:       0,
 	})
 
+	//prometheus
+	prometheus := prometheus.NewPrometheus()
+
 	//gigachat
-	gigaChatRecommendation := gigachat.NewRecommendation(gigaChatClient)
+	gigaChatRecommendation := gigachat.NewRecommendation(
+		gigaChatClient,
+	)
 
 	//cach
-	cacheRecommendation := redis.NewRecommendation(redisClient)
+	cacheRecommendation := redis.NewRecommendation(
+		redisClient,
+	)
 
 	//service
+	useCaseMetric := metric.NewMetricUseCase(
+		prometheus,
+	)
+
 	useCaseRecommendation := recommendation.New(
 		gigaChatRecommendation,
 		cacheRecommendation,
 	)
 
 	//handlers
-	handlers := handlers.New(useCaseRecommendation)
+	handlers := handlers.New(
+		useCaseRecommendation,
+		useCaseMetric,
+	)
 
 	//http server
-	server := route.New(cfg.HTTP.Port, handlers.Init())
+	server := route.New(
+		cfg.HTTP.Port,
+		handlers.Init(),
+	)
 
 	//start server
 	logger.Info("server start, port:", cfg.HTTP.Port)
