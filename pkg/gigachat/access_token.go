@@ -52,22 +52,11 @@ func (gc *Client) getAccessToken(scope string) error {
 	}
 	defer resp.Body.Close()
 
-	// Чтение ответа
-	// responseBody, err := io.ReadAll(resp.Body)
-	// if err != nil {
-	// 	return err
-	// 	//log.Fatalf("Ошибка чтения тела ответа: %v", err)
-	// }
-
 	//
 	var buf bytes.Buffer
 
 	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
-		//logger.Error(err)
 		return err
 	}
 
@@ -76,18 +65,10 @@ func (gc *Client) getAccessToken(scope string) error {
 
 	err = json.Unmarshal(buf.Bytes(), &accessToken)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
 		return err
-		//log.Fatalf("Ошибка: %v", err)
-		//return
 	}
 
 	gc.accessToken = accessToken.AccessToken
 
-	// Вывод результата
-	//fmt.Printf("Статус-код: %d\n", resp.StatusCode)
-	//fmt.Printf("Тело ответа: %s\n", string(responseBody))
 	return nil
 }

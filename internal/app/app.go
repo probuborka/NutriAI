@@ -26,7 +26,7 @@ func Run() {
 
 	cfg, err := config.New()
 	if err != nil {
-		//	logger.Error(err)
+		logger.Error(err)
 		return
 	}
 

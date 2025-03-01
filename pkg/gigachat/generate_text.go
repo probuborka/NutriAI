@@ -54,11 +54,13 @@ type UsageInformation struct {
 }
 
 func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
+	//
+	var chatResult ChatCompletionResult
 
 	//
 	if gc.accessToken == "" {
 		if err := gc.getAccessToken("GIGACHAT_API_PERS"); err != nil {
-			return ChatCompletionResult{}, err
+			return chatResult, err
 		}
 	}
 
@@ -69,14 +71,14 @@ func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
 	jsonData, err := json.Marshal(body)
 	if err != nil {
 		//fmt.Println("Ошибка маршалинга:", err)
-		return ChatCompletionResult{}, err
+		return chatResult, err
 	}
 
 	// Создание нового HTTP-запроса
 	req, err := http.NewRequest("POST", urlEndpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
 		//log.Fatalf("Ошибка создания HTTP-запроса: %v", err)
-		return ChatCompletionResult{}, err
+		return chatResult, err
 	}
 
 	// Установка заголовков
@@ -89,47 +91,25 @@ func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
 	resp, err := client.Do(req)
 	if err != nil {
 		//log.Fatalf("Ошибка выполнения HTTP-запроса: %v", err)
-		return ChatCompletionResult{}, err
+		return chatResult, err
 	}
 	defer resp.Body.Close()
-
-	// Чтение ответа
-	// responseBody, err := io.ReadAll(resp.Body)
-	// if err != nil {
-	// 	//log.Fatalf("Ошибка чтения тела ответа: %v", err)
-	// 	return err, ChatCompletionResult{}
-	// }
 
 	//
 	var buf bytes.Buffer
 
 	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
 		//logger.Error(err)
-		return ChatCompletionResult{}, err
+		return chatResult, err
 	}
-
-	//
-	var chatResult ChatCompletionResult
 
 	err = json.Unmarshal(buf.Bytes(), &chatResult)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
-		return ChatCompletionResult{}, err
+		return chatResult, err
 		//log.Fatalf("Ошибка: %v", err)
 		//return
 	}
-
-	//_ = responseBody
-
-	// Вывод результата
-	//fmt.Printf("Статус-код: %d\n", resp.StatusCode)
-	//fmt.Printf("Тело ответа: %s\n", string(responseBody))
 
 	//
 	return chatResult, nil //responseBody

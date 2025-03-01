@@ -21,27 +21,21 @@ func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 
 	_, err := buf.ReadFrom(r.Body)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
+		response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest)
 		logger.Error(err)
 		return
 	}
 
 	err = json.Unmarshal(buf.Bytes(), &userNFP)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
+		response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest)
 		logger.Error(err)
 		return
 	}
 
 	recommendations, err := h.recommendation.GetRecommendation(r.Context(), userNFP)
 	if err != nil {
-		//
-		//response(w, entityerror.Error{Error: err.Error()}, http.StatusBadRequest)
-		//
+		response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest)
 		logger.Error(err)
 		return
 	}
