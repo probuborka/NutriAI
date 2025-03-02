@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/probuborka/NutriAI/pkg/logger"
+	"github.com/sirupsen/logrus"
 )
 
 type middleware func(http.Handler) http.Handler
@@ -23,9 +23,14 @@ func compileMiddleware(h http.Handler, m []middleware) http.Handler {
 	return wrapped
 }
 
-func logging(next http.Handler) http.Handler {
+func (h handler) logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, req *http.Request) {
-		logger.Infof("%s %s %s", req.Method, req.RequestURI, time.Now())
+		//logger.Infof("%s %s %s", req.Method, req.RequestURI, time.Now())
+		h.log.WithFields(logrus.Fields{
+			"request": req.RequestURI,
+			"method":  req.Method,
+			"time":    time.Now(),
+		}).Info("request")
 		next.ServeHTTP(w, req)
 	})
 }

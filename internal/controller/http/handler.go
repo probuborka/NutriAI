@@ -4,19 +4,22 @@ import (
 	"net/http"
 
 	"github.com/prometheus/client_golang/prometheus/promhttp"
+	"github.com/sirupsen/logrus"
 )
 
 type handler struct {
 	recommendation serviceRecommendation
 	metric         metric
+	log            *logrus.Logger
 	// authentication serviceAuthentication
 }
 
-func New(recommendation serviceRecommendation, metric metric) *handler {
+func New(recommendation serviceRecommendation, metric metric, log *logrus.Logger) *handler {
 	//cfg = cfgAuth
 	return &handler{
 		recommendation: recommendation,
 		metric:         metric,
+		log:            log,
 		// authentication: authentication,
 	}
 }
@@ -57,7 +60,7 @@ func (h handler) Init() http.Handler {
 	//
 	stack := []middleware{
 		h.RecordMetrics,
-		logging,
+		h.logging,
 	}
 
 	hand := compileMiddleware(r, stack)

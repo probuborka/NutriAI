@@ -17,16 +17,35 @@ import (
 	"github.com/probuborka/NutriAI/internal/usecase/metric"
 	"github.com/probuborka/NutriAI/internal/usecase/recommendation"
 	gigachatclient "github.com/probuborka/NutriAI/pkg/gigachat"
-	"github.com/probuborka/NutriAI/pkg/logger"
 	"github.com/probuborka/NutriAI/pkg/route"
 	redisclient "github.com/redis/go-redis/v9"
+	"github.com/sirupsen/logrus"
 )
 
 func Run() {
 
+	// Настройка Logrus
+	log := logrus.New()
+
+	// Настройка формата вывода (JSON)
+	log.SetFormatter(&logrus.JSONFormatter{})
+
+	// Настройка вывода в файл
+	file, err := os.OpenFile("./var/log/app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		log.WithFields(logrus.Fields{
+			"error": err,
+		}).Error("log file error")
+		return
+	}
+	log.SetOutput(file)
+
+	//
 	cfg, err := config.New()
 	if err != nil {
-		logger.Error(err)
+		log.WithFields(logrus.Fields{
+			"error": err,
+		}).Error("error config")
 		return
 	}
 
@@ -71,6 +90,7 @@ func Run() {
 	handlers := handlers.New(
 		useCaseRecommendation,
 		useCaseMetric,
+		log,
 	)
 
 	//http server
@@ -80,10 +100,18 @@ func Run() {
 	)
 
 	//start server
-	logger.Info("server start, port:", cfg.HTTP.Port)
+	//logger.Info("server start, port:", cfg.HTTP.Port)
+	log.WithFields(logrus.Fields{
+		"service": "nutrial",
+		"version": "1.0.0",
+		"port":    cfg.HTTP.Port,
+	}).Info("Server run")
 	go func() {
 		if err := server.Run(); !errors.Is(err, http.ErrServerClosed) {
-			logger.Errorf("error occurred while running http server: %s\n", err.Error())
+			//logger.Errorf("error occurred while running http server: %s\n", err.Error())
+			log.WithFields(logrus.Fields{
+				"error": err,
+			}).Error("error occurred while running http server")
 		}
 	}()
 
@@ -93,7 +121,11 @@ func Run() {
 
 	<-quit
 
-	logger.Info("server stop")
+	log.WithFields(logrus.Fields{
+		"service": "nutrial",
+		"version": "1.0.0",
+		"port":    cfg.HTTP.Port,
+	}).Info("server stop")
 
 	const timeout = 5 * time.Second
 
@@ -101,6 +133,9 @@ func Run() {
 	defer shutdown()
 
 	if err := server.Stop(ctx); err != nil {
-		logger.Errorf("failed to stop server: %v", err)
+		//logger.Errorf("failed to stop server: %v", err)
+		log.WithFields(logrus.Fields{
+			"error": err,
+		}).Error("failed to stop server")
 	}
 }

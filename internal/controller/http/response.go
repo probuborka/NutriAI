@@ -4,15 +4,17 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/probuborka/NutriAI/pkg/logger"
+	"github.com/sirupsen/logrus"
 )
 
-func response(w http.ResponseWriter, v any, statusCode int) {
+func (h handler) response(w http.ResponseWriter, v any, statusCode int) {
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
 	w.WriteHeader(statusCode)
 	resp, err := json.Marshal(&v)
 	if err != nil {
-		logger.Error(err)
+		h.log.WithFields(logrus.Fields{
+			"error": err,
+		}).Error("marshal error")
 		return
 	}
 	w.Write(resp)
