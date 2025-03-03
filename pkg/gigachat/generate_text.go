@@ -65,39 +65,34 @@ func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
 		}
 	}
 
-	// Определение URL-адреса конечной точки
+	//URL
 	urlEndpoint := urlGenerateText
 
-	// Преобразуем структуру в JSON
+	//
 	jsonData, err := json.Marshal(body)
 	if err != nil {
-		//fmt.Println("Ошибка маршалинга:", err)
 		return chatResult, err
 	}
 
-	// Создание нового HTTP-запроса
+	//http request
 	req, err := http.NewRequest("POST", urlEndpoint, bytes.NewBuffer(jsonData))
 	if err != nil {
-		//log.Fatalf("Ошибка создания HTTP-запроса: %v", err)
 		return chatResult, err
 	}
 
-	// Установка заголовков
+	//header
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gc.accessToken)) //
-	//req.Header.Set("RqUID", "92d59172-a445-4ca5-bf59-7c986eec7f56")
 
 	//
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // <--- Problem
 	}
-	// c.client = &http.Client{Transport: tr}
 
-	// Выполнение HTTP-запроса
+	//client
 	client := &http.Client{Transport: tr}
 	resp, err := client.Do(req)
 	if err != nil {
-		//log.Fatalf("Ошибка выполнения HTTP-запроса: %v", err)
 		return chatResult, err
 	}
 	defer resp.Body.Close()
@@ -107,17 +102,14 @@ func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
 
 	_, err = buf.ReadFrom(resp.Body)
 	if err != nil {
-		//logger.Error(err)
 		return chatResult, err
 	}
 
 	err = json.Unmarshal(buf.Bytes(), &chatResult)
 	if err != nil {
 		return chatResult, err
-		//log.Fatalf("Ошибка: %v", err)
-		//return
 	}
 
 	//
-	return chatResult, nil //responseBody
+	return chatResult, nil
 }

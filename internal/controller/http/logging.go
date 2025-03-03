@@ -11,7 +11,7 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-// Key для хранения Request ID в контексте
+// requestIDKey for storing in context
 type contextKey string
 
 const requestIDKey contextKey = "requestID"
@@ -35,20 +35,20 @@ func (w *bodyLogWriter) WriteHeader(statusCode int) {
 
 func (h handler) logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// Добавление Request ID в контекст
+		//add RequestID to context
 		requestID := uuid.New().String()
 		ctx := context.WithValue(r.Context(), requestIDKey, requestID)
 		r = r.WithContext(ctx)
 
-		//
+		//start
 		start := time.Now()
 
-		// Логируем входящий запрос
+		//log request
 		var requestBody string
 		if r.Body != nil {
 			bodyBytes, _ := io.ReadAll(r.Body)
 			requestBody = string(bodyBytes)
-			r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes)) // Восстанавливаем тело запроса
+			r.Body = io.NopCloser(bytes.NewBuffer(bodyBytes)) //restoring the request body
 		}
 
 		h.log.WithFields(logrus.Fields{
@@ -59,17 +59,17 @@ func (h handler) logging(next http.Handler) http.Handler {
 			"body":      requestBody,
 		}).Info("Incoming request")
 
-		// Перехват ответа
+		//
 		blw := &bodyLogWriter{
 			body:           bytes.NewBufferString(""),
 			ResponseWriter: w,
 		}
 		w = blw
 
-		// Передаем управление следующему обработчику
+		//next
 		next.ServeHTTP(w, r)
 
-		// Логируем ответ
+		//log response
 		duration := time.Since(start).Seconds()
 
 		//

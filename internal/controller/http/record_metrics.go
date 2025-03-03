@@ -14,15 +14,17 @@ type metric interface {
 
 func (h handler) recordMetrics(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		//
 		start := time.Now()
 
-		// Выполняем следующий обработчик
+		//next
 		next.ServeHTTP(w, r)
 
-		// Записываем метрики
+		//
 		duration := time.Since(start).Seconds()
 
-		// Метрика для количества запросов
+		//metric
+		//count request
 		h.metric.RecordMetric(r.Context(), entity.Metric{
 			Type:  entity.MetricTypeCounter,
 			Name:  "http_requests_total",
@@ -33,7 +35,7 @@ func (h handler) recordMetrics(next http.Handler) http.Handler {
 			},
 		})
 
-		// Метрика для времени обработки запроса
+		//request processing time
 		h.metric.RecordMetric(r.Context(), entity.Metric{
 			Type:  entity.MetricTypeHistogram,
 			Name:  "http_request_duration_seconds",

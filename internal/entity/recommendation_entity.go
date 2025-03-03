@@ -31,10 +31,12 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 	if len(u.UserID) < 3 || len(u.UserID) > 50 {
 		return errors.New("user_id must be between 3 and 50 characters")
 	}
+
 	//Age
 	if u.Age < 18 || u.Age > 100 {
 		return errors.New("age must be between 18 and 100")
 	}
+
 	//Gender
 	if u.Gender == "" {
 		return errors.New("gender is required")
@@ -42,6 +44,7 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 	if u.Gender != "male" && u.Gender != "female" {
 		return errors.New("gender is error. (male or female)")
 	}
+
 	//Height
 	if u.Height == 0 {
 		return errors.New("height is required")
@@ -49,22 +52,27 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 	if u.Height < 50 || u.Height > 250 {
 		return errors.New("height must be between 50 and 250 cm")
 	}
+
 	//CurrentWeight
 	if u.CurrentWeight == 0 {
 		return errors.New("currentWeight is required")
 	}
+
 	//GoalWeight
 	if u.GoalWeight == 0 {
 		return errors.New("goalWeight is required")
 	}
+
 	//ActivityLevel
 	if u.ActivityLevel == "" {
 		return errors.New("activityLevel is required")
 	}
+
 	//DietaryPreferences
 	if u.DietaryPreferences == "" {
 		return errors.New("dietaryPreferences is required")
 	}
+
 	//TrainingGoals
 	if u.TrainingGoals == "" {
 		return errors.New("trainingGoals is required")

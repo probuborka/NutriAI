@@ -21,25 +21,26 @@ type AccessToken struct {
 }
 
 func (gc *Client) getAccessToken(scope string) error {
-	// Определение URL-адреса конечной точки
+	//URL
 	urlEndpoint := urlAccessToken
+
+	//
 	uuid := uuid.New().String()
 
-	// Параметры для тела запроса
+	//body
 	data := url.Values{}
 	data.Set("scope", scope) //"GIGACHAT_API_PERS"
 
-	// Преобразование параметров в строку формата x-www-form-urlencoded
+	//x-www-form-urlencoded
 	body := bytes.NewBufferString(data.Encode())
 
-	// Создание нового HTTP-запроса
+	//http request
 	req, err := http.NewRequest("POST", urlEndpoint, body)
 	if err != nil {
 		return err
-		//log.Fatalf("Ошибка создания HTTP-запроса: %v", err)
 	}
 
-	// Установка заголовков
+	//header
 	req.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gc.apiKey))
 	req.Header.Set("RqUID", uuid)
@@ -48,17 +49,14 @@ func (gc *Client) getAccessToken(scope string) error {
 	tr := &http.Transport{
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // <--- Problem
 	}
-	// c.client = &http.Client{Transport: tr}
 
-	// Выполнение HTTP-запроса
+	//http client
 	client := &http.Client{Transport: tr}
 
-	// Выполнение HTTP-запроса
-	//client := &http.Client{}
+	//do
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
-		//log.Fatalf("Ошибка выполнения HTTP-запроса: %v", err)
 	}
 	defer resp.Body.Close()
 

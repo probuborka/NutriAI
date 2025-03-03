@@ -10,8 +10,6 @@ type Config struct {
 	HTTP  entity.HTTPConfig
 	Api   entity.Api
 	Redis entity.Redis
-	// DB   entityconfig.DBConfig
-	// Auth entityconfig.Authentication
 }
 
 func New() (*Config, error) {
