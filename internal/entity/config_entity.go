@@ -2,9 +2,9 @@ package entity
 
 const (
 	// NutriAI
-	Port = "8090"
+	Port = "8080"
 	// GigaChat
-	ApiKey = "ZDMxOTdmNjUtMmY3MS00MTdjLThkY2YtODljY2RiZGI1ZDZkOmEwN2Q5YjhkLWVlNDAtNDUzZS04MTk1LTYzMDQxODU0NjYwMA=="
+	ApiKey = ""
 	// Redis
 	RedisHost = "localhost"
 	RedisPort = "6379"

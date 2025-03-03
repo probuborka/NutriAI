@@ -12,11 +12,11 @@ services:
       - monitoring
 
   redis:
-    image: redis:latest  # Используем официальный образ Redis
+    image: redis:latest 
     container_name: redis
     ports:
-      - "6379:6379"  # Пробрасываем порт Redis на хост
-    restart: always  # Автоматически перезапускать контейнер при сбоях
+      - "6379:6379"  
+    restart: always 
     networks:
       - monitoring
 
