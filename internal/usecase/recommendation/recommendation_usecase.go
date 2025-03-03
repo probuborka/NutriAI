@@ -52,7 +52,7 @@ func (s service) GetRecommendation(ctx context.Context, userNFP entity.UserNutri
 		recommendationCache.ActivityLevel == userNFP.ActivityLevel &&
 		recommendationCache.DietaryPreferences == userNFP.DietaryPreferences &&
 		recommendationCache.TrainingGoals == userNFP.TrainingGoals {
-		return recommendationCache.Recommendations, err
+		return recommendationCache.Recommendations, nil
 	}
 
 	//get recommendations from AI
@@ -80,5 +80,5 @@ func (s service) GetRecommendation(ctx context.Context, userNFP entity.UserNutri
 		return "", err
 	}
 
-	return str, err
+	return str, nil
 }
