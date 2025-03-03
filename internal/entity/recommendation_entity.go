@@ -68,9 +68,11 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 	if u.TrainingGoals == "" {
 		return errors.New("trainingGoals is required")
 	}
+
 	// if !strings.Contains(u.Email, "@") {
 	//     return errors.New("invalid email")
 	// }
+
 	return nil
 }
 
