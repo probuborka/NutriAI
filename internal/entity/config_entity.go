@@ -1,13 +1,18 @@
 package entity
 
 const (
-	// NutriAI
+	//nutriAI
 	Port = "8080"
-	// GigaChat
+
+	//gigaChat
 	ApiKey = ""
-	// Redis
+
+	//redis
 	RedisHost = "localhost"
 	RedisPort = "6379"
+
+	//log file
+	LogFile = "./var/log/app.log"
 )
 
 type HTTPConfig struct {
@@ -21,4 +26,8 @@ type Api struct {
 type Redis struct {
 	Host string
 	Port string
+}
+
+type Log struct {
+	File string
 }

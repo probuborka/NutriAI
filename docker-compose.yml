@@ -1,7 +1,7 @@
 services:
   app:
     build: .
-    container_name: go-app
+    container_name: NutriAI
     ports:
       - "8080:8080"
     volumes:

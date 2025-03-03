@@ -25,6 +25,13 @@ import (
 )
 
 func Run() {
+	//config -----------------------------------------------------------------------------------------------------------
+	cfg, err := config.New()
+	if err != nil {
+		logrus.Error(err)
+		return
+	}
+
 	//log --------------------------------------------------------------------------------------------------------------
 	//logrus
 	log := logrus.New()
@@ -33,7 +40,7 @@ func Run() {
 	log.SetFormatter(&logrus.JSONFormatter{})
 
 	//saving logs to file
-	file, err := os.OpenFile("./var/log/app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	file, err := os.OpenFile(cfg.Log.File, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.WithFields(logrus.Fields{
 			"error": err,
@@ -41,15 +48,6 @@ func Run() {
 		return
 	}
 	log.SetOutput(io.MultiWriter(os.Stdout, file))
-
-	//config -----------------------------------------------------------------------------------------------------------
-	cfg, err := config.New()
-	if err != nil {
-		log.WithFields(logrus.Fields{
-			"error": err,
-		}).Error("error config")
-		return
-	}
 
 	//infrastructure ---------------------------------------------------------------------------------------------------
 	//gigachat client
@@ -104,7 +102,6 @@ func Run() {
 	)
 
 	//start server
-	//logger.Info("server start, port:", cfg.HTTP.Port)
 	log.WithFields(logrus.Fields{
 		"service": "nutrial",
 		"version": "1.0.0",
@@ -112,7 +109,6 @@ func Run() {
 	}).Info("Server run")
 	go func() {
 		if err := server.Run(); !errors.Is(err, http.ErrServerClosed) {
-			//logger.Errorf("error occurred while running http server: %s\n", err.Error())
 			log.WithFields(logrus.Fields{
 				"error": err,
 			}).Error("error occurred while running http server")
@@ -137,7 +133,6 @@ func Run() {
 	defer shutdown()
 
 	if err := server.Stop(ctx); err != nil {
-		//logger.Errorf("failed to stop server: %v", err)
 		log.WithFields(logrus.Fields{
 			"error": err,
 		}).Error("failed to stop server")

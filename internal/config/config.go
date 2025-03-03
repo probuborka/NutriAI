@@ -10,6 +10,7 @@ type Config struct {
 	HTTP  entity.HTTPConfig
 	Api   entity.Api
 	Redis entity.Redis
+	Log   entity.Log
 }
 
 func New() (*Config, error) {
@@ -37,6 +38,12 @@ func New() (*Config, error) {
 		redisPort = entity.RedisPort
 	}
 
+	//
+	logFile := os.Getenv("LOG_FILE")
+	if logFile == "" {
+		logFile = entity.LogFile
+	}
+
 	return &Config{
 		HTTP: entity.HTTPConfig{
 			Port: port,
@@ -47,6 +54,9 @@ func New() (*Config, error) {
 		Redis: entity.Redis{
 			Host: redisHost,
 			Port: redisPort,
+		},
+		Log: entity.Log{
+			File: logFile,
 		},
 	}, nil
 }
