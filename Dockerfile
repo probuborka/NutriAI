@@ -8,7 +8,11 @@ RUN go mod download
 
 RUN go build -o app ./cmd/.
 
-FROM alpine:latest
+FROM alpine:latest AS go-app
+
+ENV NUTRIAI_PORT=8080
+
+ENV API_KEY=ZDMxOTdmNjUtMmY3MS00MTdjLThkY2YtODljY2RiZGI1ZDZkOmEwN2Q5YjhkLWVlNDAtNDUzZS04MTk1LTYzMDQxODU0NjYwMA==
 
 WORKDIR /app
 

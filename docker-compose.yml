@@ -10,7 +10,16 @@ services:
       - loki
     networks:
       - monitoring
-      
+
+  redis:
+    image: redis:latest  # Используем официальный образ Redis
+    container_name: redis
+    ports:
+      - "6379:6379"  # Пробрасываем порт Redis на хост
+    restart: always  # Автоматически перезапускать контейнер при сбоях
+    networks:
+      - monitoring
+
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus

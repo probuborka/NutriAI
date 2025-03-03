@@ -2,6 +2,7 @@ package gigachat
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -86,8 +87,14 @@ func (gc *Client) GenerateText(body RequestBody) (ChatCompletionResult, error) {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gc.accessToken)) //
 	//req.Header.Set("RqUID", "92d59172-a445-4ca5-bf59-7c986eec7f56")
 
+	//
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // <--- Problem
+	}
+	// c.client = &http.Client{Transport: tr}
+
 	// Выполнение HTTP-запроса
-	client := &http.Client{}
+	client := &http.Client{Transport: tr}
 	resp, err := client.Do(req)
 	if err != nil {
 		//log.Fatalf("Ошибка выполнения HTTP-запроса: %v", err)

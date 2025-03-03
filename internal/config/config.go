@@ -17,13 +17,13 @@ func New() (*Config, error) {
 	// // password
 	// password := os.Getenv("TODO_PASSWORD")
 
-	// //port
-	// port := os.Getenv("TODO_PORT")
-	// if port == "" {
-	// 	port = entityconfig.Port
-	// }
-	port := entity.Port
+	//port
+	port := os.Getenv("NUTRIAI_PORT")
+	if port == "" {
+		port = entity.Port
+	}
 
+	//API_KEY
 	key := os.Getenv("API_KEY")
 	if key == "" {
 		key = entity.ApiKey

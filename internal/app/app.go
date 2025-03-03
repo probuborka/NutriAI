@@ -57,7 +57,7 @@ func Run() {
 	//redis client
 	redisClient := redisclient.NewClient(
 		&redisclient.Options{
-			Addr:     "localhost:6379",
+			Addr:     "redis:6379",
 			Password: "",
 			DB:       0,
 		},

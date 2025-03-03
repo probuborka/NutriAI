@@ -2,6 +2,7 @@ package gigachat
 
 import (
 	"bytes"
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -43,8 +44,17 @@ func (gc *Client) getAccessToken(scope string) error {
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s", gc.apiKey))
 	req.Header.Set("RqUID", uuid)
 
+	//
+	tr := &http.Transport{
+		TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, // <--- Problem
+	}
+	// c.client = &http.Client{Transport: tr}
+
 	// Выполнение HTTP-запроса
-	client := &http.Client{}
+	client := &http.Client{Transport: tr}
+
+	// Выполнение HTTP-запроса
+	//client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
 		return err
