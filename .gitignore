@@ -1,3 +1,2 @@
 **/*.log
 prometheus-data/
-var/log/
