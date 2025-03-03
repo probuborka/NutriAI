@@ -49,7 +49,7 @@ func Run() {
 	}
 	log.SetOutput(io.MultiWriter(os.Stdout, file))
 
-	//infrastructure ---------------------------------------------------------------------------------------------------
+	//client ----------------------------------------------------------------------------------------------------------
 	//gigachat client
 	gigaChatClient := gigachatclient.New(
 		cfg.Api.Key,
@@ -64,6 +64,7 @@ func Run() {
 		},
 	)
 
+	//infrastructure ---------------------------------------------------------------------------------------------------
 	//prometheus
 	prometheus := prometheus.NewPrometheus()
 
