@@ -2,15 +2,6 @@ package entity
 
 import "errors"
 
-// Описание полей:
-// Age: Возраст пользователя.
-// Gender: Пол пользователя.
-// Height: Рост пользователя.
-// CurrentWeight: Текущий вес пользователя.
-// GoalWeight: Желаемый вес пользователя.
-// ActivityLevel: Уровень физической активности пользователя.
-// DietaryPreferences: Предпочтения в питании.
-// TrainingGoals: Цели тренировок.
 type UserNutritionAndFitnessProfile struct {
 	UserID             string  `json:"user_id"`
 	Age                int     `json:"age"`
