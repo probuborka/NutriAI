@@ -29,11 +29,19 @@ func NewRecommendationUseCase(ai ai, cache cache) service {
 
 func (s service) GetRecommendation(ctx context.Context, userNFP entity.UserNutritionAndFitnessProfile) (string, error) {
 
+	//validate
+	err := userNFP.Validate()
+	if err != nil {
+		return "", err
+	}
+
+	//search for recommendations in cache
 	recommendationCache, err := s.cache.FindByID(ctx, userNFP.UserID)
 	if err != nil {
 		return "", err
 	}
 
+	//check recommendation from cache and userNFP
 	if recommendationCache.Recommendations != "" &&
 		recommendationCache.UserID == userNFP.UserID &&
 		recommendationCache.Age == userNFP.Age &&
@@ -47,6 +55,7 @@ func (s service) GetRecommendation(ctx context.Context, userNFP entity.UserNutri
 		return recommendationCache.Recommendations, err
 	}
 
+	//get recommendations from AI
 	str, err := s.ai.Recommendation(userNFP)
 	if str == "" {
 		return "", err
@@ -65,6 +74,7 @@ func (s service) GetRecommendation(ctx context.Context, userNFP entity.UserNutri
 		Recommendations:    str,
 	}
 
+	//save recommendations in cache
 	err = s.cache.Save(ctx, recommendation)
 	if err != nil {
 		return "", err

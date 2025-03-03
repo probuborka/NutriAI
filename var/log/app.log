@@ -39,3 +39,36 @@
 {"fields.time":"2025-03-03T15:02:55.017743724+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:02:55+03:00"}
 {"fields.time":"2025-03-03T15:03:04.688393603+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:03:04+03:00"}
 {"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T15:06:03+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:45:27+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:45:46.379241495+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:45:46+03:00"}
+{"error":"gender is error. (Male or Female)","level":"error","msg":"usecase recommendations","time":"2025-03-03T15:45:46+03:00"}
+{"fields.time":"2025-03-03T15:45:59.215908075+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:45:59+03:00"}
+{"error":"gender is error. (Male or Female)","level":"error","msg":"usecase recommendations","time":"2025-03-03T15:45:59+03:00"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T15:46:34+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:49:43+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:50:05.889328011+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:50:05+03:00"}
+{"error":"gender is error. (Male or Female)","level":"error","msg":"usecase recommendations","time":"2025-03-03T15:50:17+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:50:41+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:51:00.690718947+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:51:00+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:51:45+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:51:56.22172167+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:51:56+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:52:31+03:00","version":"1.0.0"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T15:52:59+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:53:15+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:53:26.30060752+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:53:26+03:00"}
+{"error":"height is required","level":"error","msg":"usecase recommendations","time":"2025-03-03T15:53:26+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:54:50+03:00","version":"1.0.0"}
+{"error":"listen tcp :8090: bind: address already in use","level":"error","msg":"error occurred while running http server","time":"2025-03-03T15:54:50+03:00"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T15:55:07+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:57:25+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:57:39.312543062+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:57:39+03:00"}
+{"fields.time":"2025-03-03T15:57:55.862924263+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:57:55+03:00"}
+{"fields.time":"2025-03-03T15:57:58.984970339+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:57:58+03:00"}
+{"fields.time":"2025-03-03T15:58:00.578742197+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:58:00+03:00"}
+{"fields.time":"2025-03-03T15:58:21.801689127+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:58:21+03:00"}
+{"error":"invalid character ',' looking for beginning of value","level":"error","msg":"unmarshal error","time":"2025-03-03T15:58:21+03:00"}
+{"fields.time":"2025-03-03T15:58:29.399824364+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:58:29+03:00"}
+{"error":"age must be between 18 and 100","level":"error","msg":"usecase recommendations","time":"2025-03-03T15:58:29+03:00"}
+{"fields.time":"2025-03-03T15:59:20.425928766+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:59:20+03:00"}
+{"fields.time":"2025-03-03T15:59:25.984403777+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:59:25+03:00"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T15:59:38+03:00","version":"1.0.0"}
