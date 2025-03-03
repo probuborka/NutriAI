@@ -59,7 +59,7 @@ func (h handler) Init() http.Handler {
 
 	//
 	stack := []middleware{
-		h.RecordMetrics,
+		h.recordMetrics,
 		h.logging,
 	}
 

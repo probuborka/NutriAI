@@ -12,7 +12,7 @@ type metric interface {
 	RecordMetric(ctx context.Context, metric entity.Metric) error
 }
 
-func (h handler) RecordMetrics(next http.Handler) http.Handler {
+func (h handler) recordMetrics(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
 
