@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"os/signal"
@@ -24,14 +25,14 @@ import (
 )
 
 func Run() {
-
-	// Настройка Logrus
+	//log --------------------------------------------------------------------------------------------------------------
+	//Logrus
 	log := logrus.New()
 
-	// Настройка формата вывода (JSON)
+	//format log json
 	log.SetFormatter(&logrus.JSONFormatter{})
 
-	// Настройка вывода в файл
+	//saving logs to file
 	file, err := os.OpenFile("./var/log/app.log", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 	if err != nil {
 		log.WithFields(logrus.Fields{
@@ -39,9 +40,9 @@ func Run() {
 		}).Error("log file error")
 		return
 	}
-	log.SetOutput(file)
+	log.SetOutput(io.MultiWriter(os.Stdout, file))
 
-	//
+	//config -----------------------------------------------------------------------------------------------------------
 	cfg, err := config.New()
 	if err != nil {
 		log.WithFields(logrus.Fields{
@@ -50,6 +51,7 @@ func Run() {
 		return
 	}
 
+	//infrastructure ---------------------------------------------------------------------------------------------------
 	//gigachat client
 	gigaChatClient := gigachatclient.New(
 		cfg.Api.Key,
@@ -77,7 +79,7 @@ func Run() {
 		redisClient,
 	)
 
-	//service
+	//usecase ------------------------------------------------------------------------------------------------------
 	useCaseMetric := metric.NewMetricUseCase(
 		prometheus,
 	)
@@ -87,13 +89,14 @@ func Run() {
 		cacheRecommendation,
 	)
 
-	//handlers
+	//handlers ------------------------------------------------------------------------------------------------------
 	handlers := handlers.New(
 		useCaseRecommendation,
 		useCaseMetric,
 		log,
 	)
 
+	//server --------------------------------------------------------------------------------------------------------
 	//http server
 	server := route.New(
 		cfg.HTTP.Port,

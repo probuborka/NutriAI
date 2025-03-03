@@ -7,13 +7,16 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
-func (h handler) response(w http.ResponseWriter, v any, statusCode int) {
+func (h handler) response(w http.ResponseWriter, v any, statusCode int, requestID string) {
+	//
 	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("X-Request-ID", requestID)
 	w.WriteHeader(statusCode)
 	resp, err := json.Marshal(&v)
 	if err != nil {
 		h.log.WithFields(logrus.Fields{
-			"error": err,
+			"requestID": requestID,
+			"error":     err,
 		}).Error("marshal error")
 		return
 	}
