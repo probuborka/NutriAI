@@ -1,0 +1,41 @@
+{"level":"info","msg":"Server run","port":"8080","service":"nutrial","time":"2025-03-03T13:07:41+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T13:08:07.278239876+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:08:07+03:00"}
+{"error":"dial tcp: lookup redis: i/o timeout","level":"error","msg":"usecase recommendations","time":"2025-03-03T13:08:12+03:00"}
+{"level":"info","msg":"Server run","port":"8080","service":"nutrial","time":"2025-03-03T13:08:52+03:00","version":"1.0.0"}
+{"error":"listen tcp :8080: bind: address already in use","level":"error","msg":"error occurred while running http server","time":"2025-03-03T13:08:52+03:00"}
+{"level":"info","msg":"server stop","port":"8080","service":"nutrial","time":"2025-03-03T13:12:28+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8080","service":"nutrial","time":"2025-03-03T13:15:45+03:00","version":"1.0.0"}
+{"error":"listen tcp :8080: bind: address already in use","level":"error","msg":"error occurred while running http server","time":"2025-03-03T13:15:45+03:00"}
+{"level":"info","msg":"server stop","port":"8080","service":"nutrial","time":"2025-03-03T13:18:20+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T13:20:00+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T13:20:31.680511337+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:20:31+03:00"}
+{"fields.time":"2025-03-03T13:21:31.365259678+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:21:31+03:00"}
+{"error":"invalid character 'Ð' looking for beginning of value","level":"error","msg":"usecase recommendations","time":"2025-03-03T13:22:29+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T13:24:25+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T13:24:37.735570864+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:24:37+03:00"}
+{"error":"invalid character 'Ð' looking for beginning of value","level":"error","msg":"usecase recommendations","time":"2025-03-03T13:24:37+03:00"}
+{"fields.time":"2025-03-03T13:24:47.037166422+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:24:47+03:00"}
+{"fields.time":"2025-03-03T13:24:54.112347936+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:24:54+03:00"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T13:25:53+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T13:26:08+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T13:26:21.903731631+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:26:21+03:00"}
+{"fields.time":"2025-03-03T13:31:28.999477257+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:31:28+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T13:34:33+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T13:34:39.527456948+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T13:34:39+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T14:40:44+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T14:40:56.04194+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:40:56+03:00"}
+{"fields.time":"2025-03-03T14:42:10.916195623+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:42:10+03:00"}
+{"fields.time":"2025-03-03T14:43:22.200112654+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:43:22+03:00"}
+{"error":"invalid character 'Ð' looking for beginning of value","level":"error","msg":"usecase recommendations","time":"2025-03-03T14:43:57+03:00"}
+{"fields.time":"2025-03-03T14:45:00.450429459+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:45:00+03:00"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T14:46:26+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T14:46:50.319959239+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:46:50+03:00"}
+{"fields.time":"2025-03-03T14:46:54.136786363+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:46:54+03:00"}
+{"fields.time":"2025-03-03T14:47:13.743610313+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:47:13+03:00"}
+{"fields.time":"2025-03-03T14:47:19.990176715+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T14:47:19+03:00"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T14:47:32+03:00","version":"1.0.0"}
+{"level":"info","msg":"Server run","port":"8090","service":"nutrial","time":"2025-03-03T15:00:37+03:00","version":"1.0.0"}
+{"fields.time":"2025-03-03T15:00:48.953712387+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:00:48+03:00"}
+{"fields.time":"2025-03-03T15:02:55.017743724+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:02:55+03:00"}
+{"fields.time":"2025-03-03T15:03:04.688393603+03:00","level":"info","method":"GET","msg":"request","request":"/api/recommendation","time":"2025-03-03T15:03:04+03:00"}
+{"level":"info","msg":"server stop","port":"8090","service":"nutrial","time":"2025-03-03T15:06:03+03:00","version":"1.0.0"}

@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/http"
 	"os"
 	"os/signal"
@@ -57,7 +58,7 @@ func Run() {
 	//redis client
 	redisClient := redisclient.NewClient(
 		&redisclient.Options{
-			Addr:     "redis:6379",
+			Addr:     fmt.Sprintf("%s:%s", cfg.Redis.Host, cfg.Redis.Port),
 			Password: "",
 			DB:       0,
 		},

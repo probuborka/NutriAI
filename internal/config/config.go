@@ -7,16 +7,14 @@ import (
 )
 
 type Config struct {
-	HTTP entity.HTTPConfig
-	Api  entity.Api
+	HTTP  entity.HTTPConfig
+	Api   entity.Api
+	Redis entity.Redis
 	// DB   entityconfig.DBConfig
 	// Auth entityconfig.Authentication
 }
 
 func New() (*Config, error) {
-	// // password
-	// password := os.Getenv("TODO_PASSWORD")
-
 	//port
 	port := os.Getenv("NUTRIAI_PORT")
 	if port == "" {
@@ -29,24 +27,28 @@ func New() (*Config, error) {
 		key = entity.ApiKey
 	}
 
-	// //db
-	// dbFile := os.Getenv("TODO_DBFILE")
-	// if dbFile == "" {
-	// 	dbFile = filepath.Join(entityconfig.DBDir, "/", entityconfig.DBName)
-	// }
-	// dbDriver := entityconfig.DBDriver
-	// dbCreate := entityconfig.DBCreate
+	//RedisHost
+	redisHost := os.Getenv("REDIS_HOST")
+	if redisHost == "" {
+		redisHost = entity.RedisHost
+	}
+
+	//RedisPort
+	redisPort := os.Getenv("REDIS_PORT")
+	if redisPort == "" {
+		redisPort = entity.RedisPort
+	}
 
 	return &Config{
-		HTTP: entity.HTTPConfig{Port: port},
-		Api:  entity.Api{Key: key},
-		// DB: entityconfig.DBConfig{
-		// 	Driver: dbDriver,
-		// 	File:   dbFile,
-		// 	Create: dbCreate,
-		// },
-		// Auth: entityconfig.Authentication{
-		// 	Password: password,
-		// },
+		HTTP: entity.HTTPConfig{
+			Port: port,
+		},
+		Api: entity.Api{
+			Key: key,
+		},
+		Redis: entity.Redis{
+			Host: redisHost,
+			Port: redisPort,
+		},
 	}, nil
 }

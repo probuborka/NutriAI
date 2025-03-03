@@ -2,9 +2,11 @@ package redis
 
 import (
 	"context"
+	"encoding/json"
 	"errors"
 	"fmt"
 
+	"github.com/probuborka/NutriAI/internal/entity"
 	"github.com/redis/go-redis/v9"
 )
 
@@ -19,27 +21,30 @@ func NewRecommendation(client *redis.Client) *redisRecommendation {
 }
 
 // Save — сохранение задачи в Redis
-func (r *redisRecommendation) Save(ctx context.Context, id string, recommendation string) error {
-	// data, err := json.Marshal(task)
-	// if err != nil {
-	// 	return err
-	// }
-	return r.client.Set(ctx, fmt.Sprintf("userID:%s", id), recommendation, 0).Err()
+func (r *redisRecommendation) Save(ctx context.Context, recommendation entity.UserNutritionAndFitnessProfileCache) error {
+	data, err := json.Marshal(recommendation)
+	if err != nil {
+		return err
+	}
+	return r.client.Set(ctx, fmt.Sprintf("userID:%s", recommendation.UserID), string(data), 0).Err()
 }
 
 // FindByID — поиск задачи по ID в Redis
-func (r *redisRecommendation) FindByID(ctx context.Context, id string) (string, error) {
+func (r *redisRecommendation) FindByID(ctx context.Context, id string) (entity.UserNutritionAndFitnessProfileCache, error) {
+	recommendationCache := entity.UserNutritionAndFitnessProfileCache{}
+
 	data, err := r.client.Get(ctx, fmt.Sprintf("userID:%s", id)).Bytes()
 	if err != nil {
 		if errors.Is(err, redis.Nil) {
-			return "", nil // Задача не найдена
+			return recommendationCache, nil // Задача не найдена
 		}
-		return "", err
+		return recommendationCache, err
 	}
 
-	// var task domain.Task
-	// if err := json.Unmarshal(data, &task); err != nil {
-	// 	return nil, err
-	// }
-	return string(data), nil
+	err = json.Unmarshal(data, &recommendationCache)
+	if err != nil {
+		return recommendationCache, err
+	}
+
+	return recommendationCache, nil
 }
