@@ -11,10 +11,10 @@ import (
 )
 
 type serviceRecommendation interface {
-	GetRecommendationNew(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error)
+	GetRecommendation(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error)
 }
 
-func (h handler) getRecommendationNew(w http.ResponseWriter, r *http.Request) {
+func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 	//
 	requestID, ok := r.Context().Value(requestIDKey).(string)
 	if !ok {
@@ -45,7 +45,7 @@ func (h handler) getRecommendationNew(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	recommendations, err := h.recommendation.GetRecommendationNew(r.Context(), userRecommendationRequest)
+	recommendations, err := h.recommendation.GetRecommendation(r.Context(), userRecommendationRequest)
 	if err != nil {
 		h.response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest, requestID)
 		h.log.WithFields(logrus.Fields{

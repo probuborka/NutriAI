@@ -27,8 +27,8 @@ func (h handler) Init() http.Handler {
 	//metrics
 	r.Handle("/metrics", promhttp.Handler())
 
-	//recommendation new
-	r.HandleFunc("GET /api/recommendationnew", h.getRecommendationNew)
+	//recommendation
+	r.HandleFunc("GET /api/recommendation", h.getRecommendation)
 
 	//middleware
 	stack := []middleware{

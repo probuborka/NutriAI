@@ -18,7 +18,7 @@ func NewRecommendation(client *gigachat.Client) *gigachatRecommendation {
 	}
 }
 
-func (gch gigachatRecommendation) RecommendationNew(userRecommendation entity.UserRecommendationRequest) (string, error) {
+func (gch gigachatRecommendation) Recommendation(userRecommendation entity.UserRecommendationRequest) (string, error) {
 
 	data, err := json.Marshal(&userRecommendation)
 	if err != nil {

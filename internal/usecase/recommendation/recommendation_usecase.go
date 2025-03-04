@@ -7,12 +7,12 @@ import (
 )
 
 type ai interface {
-	RecommendationNew(userRecommendation entity.UserRecommendationRequest) (string, error)
+	Recommendation(userRecommendation entity.UserRecommendationRequest) (string, error)
 }
 
 type cache interface {
-	SaveNew(ctx context.Context, recommendation entity.UserRecommendationRequest) error
-	FindByIDNew(ctx context.Context, id string) (entity.UserRecommendationRequest, error)
+	Save(ctx context.Context, recommendation entity.UserRecommendationRequest) error
+	FindByID(ctx context.Context, id string) (entity.UserRecommendationRequest, error)
 }
 
 type service struct {
@@ -27,7 +27,7 @@ func NewRecommendationUseCase(ai ai, cache cache) service {
 	}
 }
 
-func (s service) GetRecommendationNew(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error) {
+func (s service) GetRecommendation(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error) {
 
 	//validate
 	err := userRecommendationRequest.Validate()
@@ -36,7 +36,7 @@ func (s service) GetRecommendationNew(ctx context.Context, userRecommendationReq
 	}
 
 	//search for recommendations in cache
-	recommendationCache, err := s.cache.FindByIDNew(ctx, userRecommendationRequest.UserID)
+	recommendationCache, err := s.cache.FindByID(ctx, userRecommendationRequest.UserID)
 	if err != nil {
 		return "", err
 	}
@@ -50,7 +50,7 @@ func (s service) GetRecommendationNew(ctx context.Context, userRecommendationReq
 	}
 
 	//get recommendations from AI
-	recommendations, err := s.ai.RecommendationNew(userRecommendationRequest)
+	recommendations, err := s.ai.Recommendation(userRecommendationRequest)
 	if recommendations == "" || err != nil {
 		return "", err
 	}
@@ -58,7 +58,7 @@ func (s service) GetRecommendationNew(ctx context.Context, userRecommendationReq
 	userRecommendationRequest.Recommendations = recommendations
 
 	//save recommendations in cache
-	err = s.cache.SaveNew(ctx, userRecommendationRequest)
+	err = s.cache.Save(ctx, userRecommendationRequest)
 	if err != nil {
 		return "", err
 	}

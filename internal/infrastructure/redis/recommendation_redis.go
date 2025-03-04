@@ -19,7 +19,7 @@ func NewRecommendation(client *redis.Client) *redisRecommendation {
 }
 
 // Finding recommendation in Redis
-func (r *redisRecommendation) FindByIDNew(ctx context.Context, id string) (entity.UserRecommendationRequest, error) {
+func (r *redisRecommendation) FindByID(ctx context.Context, id string) (entity.UserRecommendationRequest, error) {
 	recommendationCache := entity.UserRecommendationRequest{}
 
 	data, err := r.client.Get(ctx, fmt.Sprintf("userID:%s", id)).Bytes()
@@ -39,7 +39,7 @@ func (r *redisRecommendation) FindByIDNew(ctx context.Context, id string) (entit
 }
 
 // Save recommendation in Redis
-func (r *redisRecommendation) SaveNew(ctx context.Context, recommendation entity.UserRecommendationRequest) error {
+func (r *redisRecommendation) Save(ctx context.Context, recommendation entity.UserRecommendationRequest) error {
 	data, err := json.Marshal(recommendation)
 	if err != nil {
 		return err

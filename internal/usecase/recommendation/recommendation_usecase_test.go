@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetRecommendationNew(t *testing.T) {
+func TestGetRecommendation(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -75,9 +75,9 @@ func TestGetRecommendationNew(t *testing.T) {
 			Recommendations: "Eat more protein",
 		}
 
-		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockCache.EXPECT().FindByID(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
 
-		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
+		result, err := service.GetRecommendation(ctx, validUserRecommendationRequest)
 		assert.NoError(t, err)
 		assert.Equal(t, "Eat more protein", result)
 	})
@@ -87,11 +87,11 @@ func TestGetRecommendationNew(t *testing.T) {
 			UserID: validUserRecommendationRequest.UserID,
 		}
 
-		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
-		mockAI.EXPECT().RecommendationNew(validUserRecommendationRequest).Return("Drink more water", nil)
-		mockCache.EXPECT().SaveNew(ctx, gomock.Any()).Return(nil)
+		mockCache.EXPECT().FindByID(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockAI.EXPECT().Recommendation(validUserRecommendationRequest).Return("Drink more water", nil)
+		mockCache.EXPECT().Save(ctx, gomock.Any()).Return(nil)
 
-		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
+		result, err := service.GetRecommendation(ctx, validUserRecommendationRequest)
 		assert.NoError(t, err)
 		assert.Equal(t, "Drink more water", result)
 	})
@@ -101,15 +101,15 @@ func TestGetRecommendationNew(t *testing.T) {
 			UserID: "", // Invalid UserID
 		}
 
-		result, err := service.GetRecommendationNew(ctx, invalidUserRecommendationRequest)
+		result, err := service.GetRecommendation(ctx, invalidUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
 
-	t.Run("Error - cache FindByIDNew failed", func(t *testing.T) {
-		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(entity.UserRecommendationRequest{}, errors.New("cache error"))
+	t.Run("Error - cache FindByID failed", func(t *testing.T) {
+		mockCache.EXPECT().FindByID(ctx, validUserRecommendationRequest.UserID).Return(entity.UserRecommendationRequest{}, errors.New("cache error"))
 
-		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
+		result, err := service.GetRecommendation(ctx, validUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
@@ -119,24 +119,24 @@ func TestGetRecommendationNew(t *testing.T) {
 			UserID: validUserRecommendationRequest.UserID,
 		}
 
-		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
-		mockAI.EXPECT().RecommendationNew(validUserRecommendationRequest).Return("", errors.New("AI error"))
+		mockCache.EXPECT().FindByID(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockAI.EXPECT().Recommendation(validUserRecommendationRequest).Return("", errors.New("AI error"))
 
-		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
+		result, err := service.GetRecommendation(ctx, validUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
 
-	t.Run("Error - cache SaveNew failed", func(t *testing.T) {
+	t.Run("Error - cache Save failed", func(t *testing.T) {
 		recommendationCache := entity.UserRecommendationRequest{
 			UserID: validUserRecommendationRequest.UserID,
 		}
 
-		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
-		mockAI.EXPECT().RecommendationNew(validUserRecommendationRequest).Return("Drink more water", nil)
-		mockCache.EXPECT().SaveNew(ctx, gomock.Any()).Return(errors.New("save error"))
+		mockCache.EXPECT().FindByID(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockAI.EXPECT().Recommendation(validUserRecommendationRequest).Return("Drink more water", nil)
+		mockCache.EXPECT().Save(ctx, gomock.Any()).Return(errors.New("save error"))
 
-		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
+		result, err := service.GetRecommendation(ctx, validUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
