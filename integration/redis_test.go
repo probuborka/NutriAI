@@ -8,6 +8,7 @@ import (
 	"github.com/probuborka/NutriAI/internal/infrastructure/redis"
 	redisclient "github.com/redis/go-redis/v9"
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/require"
 )
 
 func TestRedis_Integration(t *testing.T) {
@@ -23,7 +24,7 @@ func TestRedis_Integration(t *testing.T) {
 		)
 
 		err := redisClient.Del(context.Background(), fmt.Sprintf("userID:%s", userRecommendationRequest.UserID)).Err()
-		assert.NoError(t, err)
+		require.NoError(t, err)
 		//
 		cacheRecommendation := redis.NewRecommendation(
 			redisClient,
