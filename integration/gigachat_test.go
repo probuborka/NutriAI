@@ -8,9 +8,9 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetRecommendation_Integration(t *testing.T) {
+func TestGigaChat_Integration(t *testing.T) {
 
-	t.Run("GigaChat recommendation - valid", func(t *testing.T) {
+	t.Run("GigaChat GetRecommendation - valid", func(t *testing.T) {
 		//client
 		gigaChatClient := gigachatclient.New(
 			valid_api_key,
@@ -26,7 +26,7 @@ func TestGetRecommendation_Integration(t *testing.T) {
 		assert.NotEmpty(t, str)
 	})
 
-	t.Run("GigaChat recommendation - authorization error", func(t *testing.T) {
+	t.Run("GigaChat GetRecommendation - authorization error", func(t *testing.T) {
 		//client
 		gigaChatClient := gigachatclient.New(
 			invalid_api_key,
@@ -41,7 +41,7 @@ func TestGetRecommendation_Integration(t *testing.T) {
 		assert.EqualError(t, err, gigachatclient.ErrorAuthorizationError.Error())
 	})
 
-	t.Run("GigaChat recommendation - invalid api key", func(t *testing.T) {
+	t.Run("GigaChat GetRecommendation - invalid api key", func(t *testing.T) {
 		//client
 		gigaChatClient := gigachatclient.New(
 			"invalid_api_key",
