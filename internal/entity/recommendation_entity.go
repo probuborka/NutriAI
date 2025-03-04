@@ -30,14 +30,22 @@ type UserNutritionAndFitnessProfile struct {
 // Extremely Active
 // Описание: Очень высокая физическая активность (например, профессиональные спортсмены или люди с тяжелой физической работой).
 const (
-	Sedentary        = "Sedentary"
-	LightlyActive    = "LightlyActive"
-	ModeratelyActive = "ModeratelyActive"
-	VeryActive       = "VeryActive"
-	ExtremelyActive  = "ExtremelyActive"
+	sedentary        = "Sedentary"
+	lightlyActive    = "LightlyActive"
+	moderatelyActive = "ModeratelyActive"
+	veryActive       = "VeryActive"
+	extremelyActive  = "ExtremelyActive"
 )
 
-var activityLevels = []string{Sedentary, LightlyActive, ModeratelyActive, VeryActive, ExtremelyActive}
+var activityLevels = []string{sedentary, lightlyActive, moderatelyActive, veryActive, extremelyActive}
+
+// Gender
+const (
+	male   = "Male"
+	female = "Female"
+)
+
+var genders = []string{male, female}
 
 func (u UserNutritionAndFitnessProfile) Validate() error {
 	//UserID
@@ -57,7 +65,7 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 	if u.Gender == "" {
 		return errors.New("gender is required")
 	}
-	if u.Gender != "male" && u.Gender != "female" {
+	if slices.Contains(genders, u.Gender) {
 		return errors.New("gender is error. (male or female)")
 	}
 
@@ -84,14 +92,14 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 		return errors.New("activityLevel is required")
 	}
 
-	if slices.Contains(activityLevels, u.ActivityLevel) {
+	if !slices.Contains(activityLevels, u.ActivityLevel) {
 		return fmt.Errorf(
 			"ActivityLevel is error. (%s/%s/%s/%s/%s)",
-			Sedentary,
-			LightlyActive,
-			ModeratelyActive,
-			VeryActive,
-			ExtremelyActive,
+			sedentary,
+			lightlyActive,
+			moderatelyActive,
+			veryActive,
+			extremelyActive,
 		)
 	}
 
