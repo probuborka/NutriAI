@@ -23,7 +23,8 @@ func TestGetRecommendationNew(t *testing.T) {
 	ctx := context.Background()
 
 	validUserRecommendationRequest := entity.UserRecommendationRequest{
-		UserID: "user123",
+		UserID:   "user123",
+		UserName: "jenya",
 		UserData: entity.UserData{
 			Profile: entity.Profile{
 				Age:          30,
