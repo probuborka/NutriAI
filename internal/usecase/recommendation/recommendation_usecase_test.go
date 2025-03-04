@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGetRecommendation(t *testing.T) {
+func TestGetRecommendationNew(t *testing.T) {
 	ctrl := gomock.NewController(t)
 	defer ctrl.Finish()
 
@@ -22,94 +22,120 @@ func TestGetRecommendation(t *testing.T) {
 
 	ctx := context.Background()
 
-	validUserNFP := entity.UserNutritionAndFitnessProfile{
-		UserID:             "user123",
-		Age:                25,
-		Gender:             "male",
-		Height:             180,
-		CurrentWeight:      70,
-		GoalWeight:         65,
-		ActivityLevel:      "active",
-		DietaryPreferences: "vegan",
-		TrainingGoals:      "strength",
+	validUserRecommendationRequest := entity.UserRecommendationRequest{
+		UserID: "user123",
+		UserData: entity.UserData{
+			Profile: entity.Profile{
+				Age:          30,
+				Gender:       "female",
+				WeightKg:     70,
+				HeightCm:     165,
+				FitnessLevel: "intermediate",
+			},
+			Goals: entity.Goals{
+				PrimaryGoal:    "weight_loss",
+				SecondaryGoal:  "muscle_toning",
+				TargetWeightKg: 65,
+				TimeframeWeeks: 12,
+			},
+			Preferences: entity.Preferences{
+				DietType:           "balanced",
+				Allergies:          []string{"nuts"},
+				PreferredCuisines:  []string{"mediterranean"},
+				WorkoutPreferences: []string{"yoga"},
+			},
+			Lifestyle: entity.Lifestyle{
+				ActivityLevel:           "moderate",
+				DailyCalorieIntake:      1800,
+				WorkoutAvailabilityDays: 4,
+				AverageSleepHours:       7,
+			},
+			MedicalRestrictions: entity.MedicalRestrictions{
+				HasInjuries:       true,
+				InjuryDetails:     []string{"lower_back_pain"},
+				ChronicConditions: []string{"none"},
+			},
+		},
+		RequestDetails: entity.RequestDetails{
+			ServiceType:  "fitness_nutrition_recommendations",
+			OutputFormat: "weekly_plan",
+			Language:     "ru",
+		},
 	}
 
 	t.Run("Success - recommendation from cache", func(t *testing.T) {
-		recommendationCache := entity.UserNutritionAndFitnessProfileCache{
-			UserID:             validUserNFP.UserID,
-			Age:                validUserNFP.Age,
-			Gender:             validUserNFP.Gender,
-			Height:             validUserNFP.Height,
-			CurrentWeight:      validUserNFP.CurrentWeight,
-			GoalWeight:         validUserNFP.GoalWeight,
-			ActivityLevel:      validUserNFP.ActivityLevel,
-			DietaryPreferences: validUserNFP.DietaryPreferences,
-			TrainingGoals:      validUserNFP.TrainingGoals,
-			Recommendations:    "Eat more protein",
+		recommendationCache := entity.UserRecommendationRequest{
+			UserID:   validUserRecommendationRequest.UserID,
+			UserName: validUserRecommendationRequest.UserName,
+			UserData: entity.UserData{
+				Profile: validUserRecommendationRequest.UserData.Profile,
+				Goals:   validUserRecommendationRequest.UserData.Goals,
+			},
+			Recommendations: "Eat more protein",
 		}
 
-		mockCache.EXPECT().FindByID(ctx, validUserNFP.UserID).Return(recommendationCache, nil)
+		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
 
-		result, err := service.GetRecommendation(ctx, validUserNFP)
+		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
 		assert.NoError(t, err)
 		assert.Equal(t, "Eat more protein", result)
 	})
 
 	t.Run("Success - recommendation from AI", func(t *testing.T) {
-		recommendationCache := entity.UserNutritionAndFitnessProfileCache{
-			UserID: validUserNFP.UserID,
+		recommendationCache := entity.UserRecommendationRequest{
+			UserID: validUserRecommendationRequest.UserID,
 		}
 
-		mockCache.EXPECT().FindByID(ctx, validUserNFP.UserID).Return(recommendationCache, nil)
-		mockAI.EXPECT().Recommendation(validUserNFP).Return("Drink more water", nil)
-		mockCache.EXPECT().Save(ctx, gomock.Any()).Return(nil)
+		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockAI.EXPECT().RecommendationNew(validUserRecommendationRequest).Return("Drink more water", nil)
+		mockCache.EXPECT().SaveNew(ctx, gomock.Any()).Return(nil)
 
-		result, err := service.GetRecommendation(ctx, validUserNFP)
+		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
 		assert.NoError(t, err)
 		assert.Equal(t, "Drink more water", result)
 	})
 
 	t.Run("Error - validation failed", func(t *testing.T) {
-		invalidUserNFP := entity.UserNutritionAndFitnessProfile{
+		invalidUserRecommendationRequest := entity.UserRecommendationRequest{
 			UserID: "", // Invalid UserID
 		}
 
-		result, err := service.GetRecommendation(ctx, invalidUserNFP)
+		result, err := service.GetRecommendationNew(ctx, invalidUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
 
-	t.Run("Error - cache FindByID failed", func(t *testing.T) {
-		mockCache.EXPECT().FindByID(ctx, validUserNFP.UserID).Return(entity.UserNutritionAndFitnessProfileCache{}, errors.New("cache error"))
+	t.Run("Error - cache FindByIDNew failed", func(t *testing.T) {
+		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(entity.UserRecommendationRequest{}, errors.New("cache error"))
 
-		result, err := service.GetRecommendation(ctx, validUserNFP)
+		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
 
 	t.Run("Error - AI recommendation failed", func(t *testing.T) {
-		recommendationCache := entity.UserNutritionAndFitnessProfileCache{
-			UserID: validUserNFP.UserID,
+		recommendationCache := entity.UserRecommendationRequest{
+			UserID: validUserRecommendationRequest.UserID,
 		}
 
-		mockCache.EXPECT().FindByID(ctx, validUserNFP.UserID).Return(recommendationCache, nil)
-		mockAI.EXPECT().Recommendation(validUserNFP).Return("", errors.New("AI error"))
+		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockAI.EXPECT().RecommendationNew(validUserRecommendationRequest).Return("", errors.New("AI error"))
 
-		result, err := service.GetRecommendation(ctx, validUserNFP)
+		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
 
-	t.Run("Error - cache Save failed", func(t *testing.T) {
-		recommendationCache := entity.UserNutritionAndFitnessProfileCache{
-			UserID: validUserNFP.UserID,
+	t.Run("Error - cache SaveNew failed", func(t *testing.T) {
+		recommendationCache := entity.UserRecommendationRequest{
+			UserID: validUserRecommendationRequest.UserID,
 		}
 
-		mockCache.EXPECT().FindByID(ctx, validUserNFP.UserID).Return(recommendationCache, nil)
-		mockAI.EXPECT().Recommendation(validUserNFP).Return("Drink more water", nil)
-		mockCache.EXPECT().Save(ctx, gomock.Any()).Return(errors.New("save error"))
+		mockCache.EXPECT().FindByIDNew(ctx, validUserRecommendationRequest.UserID).Return(recommendationCache, nil)
+		mockAI.EXPECT().RecommendationNew(validUserRecommendationRequest).Return("Drink more water", nil)
+		mockCache.EXPECT().SaveNew(ctx, gomock.Any()).Return(errors.New("save error"))
 
-		result, err := service.GetRecommendation(ctx, validUserNFP)
+		result, err := service.GetRecommendationNew(ctx, validUserRecommendationRequest)
 		assert.Error(t, err)
 		assert.Equal(t, "", result)
 	})
