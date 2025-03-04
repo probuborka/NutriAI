@@ -82,21 +82,21 @@ func TestGetRecommendation(t *testing.T) {
 	}
 
 	t.Run("Success - valid request", func(t *testing.T) {
-		// Ожидаем вызов метода GetRecommendationNew с корректными данными
-		mockService.On("GetRecommendationNew", mock.Anything, validRequest).Return("Eat more protein", nil)
+		// Ожидаем вызов метода GetRecommendationс корректными данными
+		mockService.On("GetRecommendation", mock.Anything, validRequest).Return("Eat more protein", nil)
 
 		// Преобразуем запрос в JSON
 		requestBody, _ := json.Marshal(validRequest)
 
 		// Создаем HTTP-запрос
-		req := httptest.NewRequest(http.MethodGet, "/api/recommendationnew", bytes.NewBuffer(requestBody))
+		req := httptest.NewRequest(http.MethodGet, "/api/recommendation", bytes.NewBuffer(requestBody))
 		req.Header.Set("Content-Type", "application/json")
 
 		// Создаем ResponseWriter для записи ответа
 		rec := httptest.NewRecorder()
 
 		// Вызываем обработчик
-		handler.getRecommendationNew(rec, req)
+		handler.getRecommendation(rec, req)
 
 		// Проверяем статус код
 		assert.Equal(t, http.StatusCreated, rec.Code)
@@ -108,19 +108,19 @@ func TestGetRecommendation(t *testing.T) {
 		assert.Equal(t, "Eat more protein", response.Recommendations)
 
 		// Проверяем, что метод мока был вызван
-		mockService.AssertCalled(t, "GetRecommendationNew", mock.Anything, validRequest)
+		mockService.AssertCalled(t, "GetRecommendation", mock.Anything, validRequest)
 	})
 
 	t.Run("Error - invalid JSON", func(t *testing.T) {
 		// Создаем HTTP-запрос с некорректным JSON
-		req := httptest.NewRequest(http.MethodGet, "/api/recommendationnew", bytes.NewBuffer([]byte("{invalid json}")))
+		req := httptest.NewRequest(http.MethodGet, "/api/recommendation", bytes.NewBuffer([]byte("{invalid json}")))
 		req.Header.Set("Content-Type", "application/json")
 
 		// Создаем ResponseWriter для записи ответа
 		rec := httptest.NewRecorder()
 
 		// Вызываем обработчик
-		handler.getRecommendationNew(rec, req)
+		handler.getRecommendation(rec, req)
 
 		// Проверяем статус код
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
@@ -141,14 +141,14 @@ func TestGetRecommendation(t *testing.T) {
 		requestBody, _ := json.Marshal(invalidRequest)
 
 		// Создаем HTTP-запрос
-		req := httptest.NewRequest(http.MethodGet, "/api/recommendationnew", bytes.NewBuffer(requestBody))
+		req := httptest.NewRequest(http.MethodGet, "/api/recommendation", bytes.NewBuffer(requestBody))
 		req.Header.Set("Content-Type", "application/json")
 
 		// Создаем ResponseWriter для записи ответа
 		rec := httptest.NewRecorder()
 
 		// Вызываем обработчик
-		handler.getRecommendationNew(rec, req)
+		handler.getRecommendation(rec, req)
 
 		// Проверяем статус код
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
@@ -161,21 +161,21 @@ func TestGetRecommendation(t *testing.T) {
 	})
 
 	t.Run("Error - service error", func(t *testing.T) {
-		// Ожидаем вызов метода GetRecommendationNew с ошибкой
-		mockService.On("GetRecommendationNew", mock.Anything, validRequest).Return("", errors.New("service error"))
+		// Ожидаем вызов метода GetRecommendation с ошибкой
+		mockService.On("GetRecommendation", mock.Anything, validRequest).Return("", errors.New("service error"))
 
 		// Преобразуем запрос в JSON
 		requestBody, _ := json.Marshal(validRequest)
 
 		// Создаем HTTP-запрос
-		req := httptest.NewRequest(http.MethodGet, "/api/recommendationnew", bytes.NewBuffer(requestBody))
+		req := httptest.NewRequest(http.MethodGet, "/api/recommendation", bytes.NewBuffer(requestBody))
 		req.Header.Set("Content-Type", "application/json")
 
 		// Создаем ResponseWriter для записи ответа
 		rec := httptest.NewRecorder()
 
 		// Вызываем обработчик
-		handler.getRecommendationNew(rec, req)
+		handler.getRecommendation(rec, req)
 
 		// Проверяем статус код
 		assert.Equal(t, http.StatusBadRequest, rec.Code)
