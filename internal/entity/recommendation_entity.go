@@ -1,6 +1,10 @@
 package entity
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+	"slices"
+)
 
 type UserNutritionAndFitnessProfile struct {
 	UserID             string  `json:"user_id"`
@@ -13,6 +17,27 @@ type UserNutritionAndFitnessProfile struct {
 	DietaryPreferences string  `json:"dietary_preferences"`
 	TrainingGoals      string  `json:"training_goals"`
 }
+
+// ActivityLevels
+// Sedentary
+// Описание: Минимальная физическая активность или ее отсутствие (например, офисная работа без тренировок).
+// Lightly Active
+// Описание: Легкая физическая активность 1–3 раза в неделю (например, прогулки или легкие тренировки).
+// Moderately Active
+// Описание: Умеренная физическая активность 3–5 раз в неделю (например, бег, плавание или силовые тренировки).
+// Very Active
+// Описание: Высокая физическая активность 6–7 раз в неделю (например, интенсивные тренировки или физическая работа).
+// Extremely Active
+// Описание: Очень высокая физическая активность (например, профессиональные спортсмены или люди с тяжелой физической работой).
+const (
+	Sedentary        = "Sedentary"
+	LightlyActive    = "LightlyActive"
+	ModeratelyActive = "ModeratelyActive"
+	VeryActive       = "VeryActive"
+	ExtremelyActive  = "ExtremelyActive"
+)
+
+var activityLevels = []string{Sedentary, LightlyActive, ModeratelyActive, VeryActive, ExtremelyActive}
 
 func (u UserNutritionAndFitnessProfile) Validate() error {
 	//UserID
@@ -57,6 +82,17 @@ func (u UserNutritionAndFitnessProfile) Validate() error {
 	//ActivityLevel
 	if u.ActivityLevel == "" {
 		return errors.New("activityLevel is required")
+	}
+
+	if slices.Contains(activityLevels, u.ActivityLevel) {
+		return fmt.Errorf(
+			"ActivityLevel is error. (%s/%s/%s/%s/%s)",
+			Sedentary,
+			LightlyActive,
+			ModeratelyActive,
+			VeryActive,
+			ExtremelyActive,
+		)
 	}
 
 	//DietaryPreferences
