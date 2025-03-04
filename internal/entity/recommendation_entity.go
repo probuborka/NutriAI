@@ -1,153 +1,13 @@
 package entity
 
 import (
-	"errors"
-	"fmt"
-	"slices"
-
 	"github.com/go-playground/validator"
 )
 
-// old
-type UserNutritionAndFitnessProfile struct {
-	UserID             string  `json:"user_id"`
-	Age                int     `json:"age"`
-	Gender             string  `json:"gender"`
-	Height             float32 `json:"height"`
-	CurrentWeight      float32 `json:"current_weight"`
-	GoalWeight         float32 `json:"goal_weight"`
-	ActivityLevel      string  `json:"activity_level"`
-	DietaryPreferences string  `json:"dietary_preferences"`
-	TrainingGoals      string  `json:"training_goals"`
-}
-
-// ActivityLevels
-// Sedentary
-// Описание: Минимальная физическая активность или ее отсутствие (например, офисная работа без тренировок).
-// Lightly Active
-// Описание: Легкая физическая активность 1–3 раза в неделю (например, прогулки или легкие тренировки).
-// Moderately Active
-// Описание: Умеренная физическая активность 3–5 раз в неделю (например, бег, плавание или силовые тренировки).
-// Very Active
-// Описание: Высокая физическая активность 6–7 раз в неделю (например, интенсивные тренировки или физическая работа).
-// Extremely Active
-// Описание: Очень высокая физическая активность (например, профессиональные спортсмены или люди с тяжелой физической работой).
-const (
-	sedentary        = "Sedentary"
-	lightlyActive    = "Lightly acive"
-	moderatelyActive = "Moderately active"
-	veryActive       = "Very active"
-	extremelyActive  = "Extremely active"
-)
-
-var activityLevels = []string{sedentary, lightlyActive, moderatelyActive, veryActive, extremelyActive}
-
-// Gender
-const (
-	male   = "Male"
-	female = "Female"
-)
-
-var genders = []string{male, female}
-
-func (u UserNutritionAndFitnessProfile) Validate() error {
-	//UserID
-	if u.UserID == "" {
-		return errors.New("user_id is required")
-	}
-	if len(u.UserID) < 3 || len(u.UserID) > 50 {
-		return errors.New("user_id must be between 3 and 50 characters")
-	}
-
-	//Age
-	if u.Age < 18 || u.Age > 100 {
-		return errors.New("age must be between 18 and 100")
-	}
-
-	//Gender
-	if u.Gender == "" {
-		return errors.New("gender is required")
-	}
-	if !slices.Contains(genders, u.Gender) {
-		return fmt.Errorf(
-			"gender is error. (%s/%s)",
-			male,
-			female,
-		)
-	}
-
-	//Height
-	if u.Height == 0 {
-		return errors.New("height is required")
-	}
-	if u.Height < 50 || u.Height > 250 {
-		return errors.New("height must be between 50 and 250 cm")
-	}
-
-	//CurrentWeight
-	if u.CurrentWeight == 0 {
-		return errors.New("currentWeight is required")
-	}
-
-	//GoalWeight
-	if u.GoalWeight == 0 {
-		return errors.New("goalWeight is required")
-	}
-
-	//ActivityLevel
-	if u.ActivityLevel == "" {
-		return errors.New("activityLevel is required")
-	}
-
-	if !slices.Contains(activityLevels, u.ActivityLevel) {
-		return fmt.Errorf(
-			"ActivityLevel is error. (%s/%s/%s/%s/%s)",
-			sedentary,
-			lightlyActive,
-			moderatelyActive,
-			veryActive,
-			extremelyActive,
-		)
-	}
-
-	//DietaryPreferences
-	if u.DietaryPreferences == "" {
-		return errors.New("dietaryPreferences is required")
-	}
-
-	//TrainingGoals
-	if u.TrainingGoals == "" {
-		return errors.New("trainingGoals is required")
-	}
-
-	// if !strings.Contains(u.Email, "@") {
-	//     return errors.New("invalid email")
-	// }
-
-	return nil
-}
-
-type RecommendationResponse struct {
-	Recommendations string `json:"recommendations"`
-}
-
-type UserNutritionAndFitnessProfileCache struct {
-	UserID             string  `json:"user_id"`
-	Age                int     `json:"age"`
-	Gender             string  `json:"gender"`
-	Height             float32 `json:"height"`
-	CurrentWeight      float32 `json:"current_weight"`
-	GoalWeight         float32 `json:"goal_weight"`
-	ActivityLevel      string  `json:"activity_level"`
-	DietaryPreferences string  `json:"dietary_preferences"`
-	TrainingGoals      string  `json:"training_goals"`
-	Recommendations    string  `json:"recommendations"`
-}
-
-// NEW --------------------------------------------------------------------------------------------
 // UserRequest представляет весь JSON-объект
 type UserRecommendationRequest struct {
 	UserID          string         `json:"user_id" validate:"required"`
+	UserName        string         `json:"user_name" validate:"required"`
 	UserData        UserData       `json:"user_data" validate:"required"`
 	RequestDetails  RequestDetails `json:"request_details" validate:"required"`
 	Recommendations string         `json:"recommendations"`
@@ -221,4 +81,9 @@ func (u UserRecommendationRequest) Validate() error {
 	}
 
 	return nil
+}
+
+// Response
+type RecommendationResponse struct {
+	Recommendations string `json:"recommendations"`
 }
