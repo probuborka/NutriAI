@@ -30,6 +30,9 @@ func (h handler) Init() http.Handler {
 	//recommendation
 	r.HandleFunc("GET /api/recommendation", h.getRecommendation)
 
+	//recommendation new
+	r.HandleFunc("GET /api/recommendationnew", h.getRecommendationNew)
+
 	//middleware
 	stack := []middleware{
 		h.recordMetrics,

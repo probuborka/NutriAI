@@ -1,6 +1,7 @@
 package gigachat
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/probuborka/NutriAI/internal/entity"
@@ -39,6 +40,54 @@ func (gch gigachatRecommendation) Recommendation(userNFP entity.UserNutritionAnd
 		userNFP.ActivityLevel,      // Уровень физической активности пользователя
 		userNFP.DietaryPreferences, // Предпочтения в питании
 		userNFP.TrainingGoals,      // Цели тренировок
+	)
+
+	// message
+	message := gigachat.RequestBody{
+		Model:           "GigaChat",
+		Stream:          false,
+		Update_interval: 0,
+		Messages: []gigachat.Messages{
+			{
+				Role:    "system",
+				Content: contentSystem,
+			},
+			{
+				Role:    "user",
+				Content: contentUser,
+			},
+		},
+	}
+
+	result, err := gch.client.GenerateText(message)
+	if err != nil {
+		return "", err
+	}
+
+	str := ""
+	for _, v := range result.Choices {
+		str = v.Message.Content
+		break
+	}
+
+	return str, err
+
+}
+
+// new
+func (gch gigachatRecommendation) RecommendationNew(userRecommendation entity.UserRecommendationRequest) (string, error) {
+
+	data, err := json.Marshal(&userRecommendation)
+	if err != nil {
+		return "", err
+	}
+
+	contentSystem := `Отвечай как нутрициолог`
+
+	contentUser := fmt.Sprintf(`
+		Дай персонализированные рекомендации на основе данных от пользователя: 
+		%s`,
+		string(data),
 	)
 
 	// message

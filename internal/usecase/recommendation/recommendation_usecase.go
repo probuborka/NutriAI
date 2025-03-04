@@ -8,11 +8,15 @@ import (
 
 type ai interface {
 	Recommendation(userNFP entity.UserNutritionAndFitnessProfile) (string, error)
+	RecommendationNew(userRecommendation entity.UserRecommendationRequest) (string, error)
 }
 
 type cache interface {
 	Save(ctx context.Context, recommendation entity.UserNutritionAndFitnessProfileCache) error
 	FindByID(ctx context.Context, id string) (entity.UserNutritionAndFitnessProfileCache, error)
+	//new
+	SaveNew(ctx context.Context, recommendation entity.UserRecommendationRequest) error
+	FindByIDNew(ctx context.Context, id string) (entity.UserRecommendationRequest, error)
 }
 
 type service struct {
@@ -81,4 +85,43 @@ func (s service) GetRecommendation(ctx context.Context, userNFP entity.UserNutri
 	}
 
 	return str, nil
+}
+
+// new ----------------------------------------------------------------------------------------------------
+func (s service) GetRecommendationNew(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error) {
+
+	//validate
+	err := userRecommendationRequest.Validate()
+	if err != nil {
+		return "", err
+	}
+
+	//search for recommendations in cache
+	recommendationCache, err := s.cache.FindByIDNew(ctx, userRecommendationRequest.UserID)
+	if err != nil {
+		return "", err
+	}
+
+	//check recommendation from cache and user recommendation from request
+	if userRecommendationRequest.UserID == recommendationCache.UserID &&
+		userRecommendationRequest.UserData.Profile == recommendationCache.UserData.Profile &&
+		userRecommendationRequest.UserData.Goals == recommendationCache.UserData.Goals {
+		return recommendationCache.Recommendations, nil
+	}
+
+	//get recommendations from AI
+	recommendations, err := s.ai.RecommendationNew(userRecommendationRequest)
+	if recommendations == "" || err != nil {
+		return "", err
+	}
+
+	userRecommendationRequest.Recommendations = recommendations
+
+	//save recommendations in cache
+	err = s.cache.SaveNew(ctx, userRecommendationRequest)
+	if err != nil {
+		return "", err
+	}
+
+	return recommendations, nil
 }

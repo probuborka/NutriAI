@@ -12,6 +12,7 @@ import (
 
 type serviceRecommendation interface {
 	GetRecommendation(ctx context.Context, userNFP entity.UserNutritionAndFitnessProfile) (string, error)
+	GetRecommendationNew(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error)
 }
 
 func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
@@ -46,6 +47,52 @@ func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 	}
 
 	recommendations, err := h.recommendation.GetRecommendation(r.Context(), userNFP)
+	if err != nil {
+		h.response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest, requestID)
+		h.log.WithFields(logrus.Fields{
+			"requestID": requestID,
+			"error":     err,
+		}).Error("usecase recommendations")
+		return
+	}
+
+	//
+	h.response(w, entity.RecommendationResponse{Recommendations: recommendations}, http.StatusCreated, requestID)
+}
+
+// new -----------------------------------------------------------------------------------------------------
+func (h handler) getRecommendationNew(w http.ResponseWriter, r *http.Request) {
+	//
+	requestID, ok := r.Context().Value(requestIDKey).(string)
+	if !ok {
+		requestID = "unknown"
+	}
+
+	//
+	var userRecommendationRequest entity.UserRecommendationRequest
+	var buf bytes.Buffer
+
+	_, err := buf.ReadFrom(r.Body)
+	if err != nil {
+		h.response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest, requestID)
+		h.log.WithFields(logrus.Fields{
+			"requestID": requestID,
+			"error":     err,
+		}).Error("buf ReadFrom")
+		return
+	}
+
+	err = json.Unmarshal(buf.Bytes(), &userRecommendationRequest)
+	if err != nil {
+		h.response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest, requestID)
+		h.log.WithFields(logrus.Fields{
+			"requestID": requestID,
+			"error":     err,
+		}).Error("unmarshal error")
+		return
+	}
+
+	recommendations, err := h.recommendation.GetRecommendationNew(r.Context(), userRecommendationRequest)
 	if err != nil {
 		h.response(w, entity.Error{Error: err.Error()}, http.StatusBadRequest, requestID)
 		h.log.WithFields(logrus.Fields{

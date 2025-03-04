@@ -5,7 +5,7 @@ const (
 	Port = "8080"
 
 	//gigaChat
-	ApiKey = ""
+	ApiKey = "ZDMxOTdmNjUtMmY3MS00MTdjLThkY2YtODljY2RiZGI1ZDZkOmEwN2Q5YjhkLWVlNDAtNDUzZS04MTk1LTYzMDQxODU0NjYwMA=="
 
 	//redis
 	RedisHost = "localhost"
