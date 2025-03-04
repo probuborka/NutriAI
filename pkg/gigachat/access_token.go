@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"crypto/tls"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 	"net/url"
@@ -19,6 +20,11 @@ type AccessToken struct {
 	AccessToken string `json:"access_token"`
 	ExpiresAt   int    `json:"expires_at"`
 }
+
+var (
+	ErrorBadRequest         = errors.New("bad request")
+	ErrorAuthorizationError = errors.New("authorization error")
+)
 
 func (gc *Client) getAccessToken(scope string) error {
 	//URL
@@ -59,6 +65,14 @@ func (gc *Client) getAccessToken(scope string) error {
 		return err
 	}
 	defer resp.Body.Close()
+
+	//
+	switch resp.StatusCode {
+	case http.StatusBadRequest:
+		return ErrorBadRequest
+	case http.StatusUnauthorized:
+		return ErrorAuthorizationError
+	}
 
 	//
 	var buf bytes.Buffer
