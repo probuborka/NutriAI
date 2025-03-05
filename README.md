@@ -75,7 +75,7 @@
 
 ## Сборка
 
-1. Клонирование репозитория:
+1. Клонируйте репозиторий:
 
     ```bash
     git clone git@github.com:probuborka/NutriAI.git
