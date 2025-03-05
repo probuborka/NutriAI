@@ -56,6 +56,7 @@
 ├── go.mod                                     # Файл зависимостей Go
 ├── go.sum                                     # Контрольная сумма зависимостей
 ├── loki-config.yaml                           # loki config
+├── Makefile                                   # Makefile
 ├── prometheus.yml                             # prometheus config
 ├── promtail-config.yaml                       # promtail config
 └── README.md                                  # Документация проекта
@@ -70,21 +71,56 @@
 - [Go 1.22+](https://golang.org/dl/)
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+- [Make](https://www.gnu.org/software/make/)
 
 ## Сборка
 
-1. Клонируйте репозиторий:
+1. Клонирование репозитория:
 
     ```bash
     git clone git@github.com:probuborka/NutriAI.git
     ```
-2. Задайте переменные окружения
+
+2. Соберите Docker-образ приложения:
 
     ```bash
-    export  NUTRIAI_PORT=8080
-    export  API_KEY=ZDMxOTdmNjUtMmY3MS00MTdjLThkY2YtODljY2RiZGI1ZDZkOjVlMmM3OWYxLTUwNDQtNDRkNi05NTY1LTA3NzBlNTkyMWNmMQ== // пример 😉
-    export  REDIS_HOST=redis
-    export  REDIS_PORT=6379
-    export  LOG_FILE=./var/log/app.log
+    make build
     ```
 
+3. Запустите сервисы с помощью Docker Compose:
+
+    ```bash
+    make run-local
+    ```
+## Команды Makefile
+
+<details>
+  <summary>Открыть список команд Make</summary>
+
+### Сборка(make)
+
+- **Собрать Docker-образ приложения**:
+
+    ```bash
+    make build
+    ```
+
+- **Запустить все сервисы с использованием docker-compose**:
+
+    ```bash
+    make run-local
+    ```
+
+- **Остановить и удалить все контейнеры**:
+
+    ```bash
+    make down
+    ```
+
+- **Перезапустить все контейнеры**:
+
+    ```bash
+    make restart
+    ```
+
+</details>
