@@ -60,3 +60,13 @@
 ├── promtail-config.yaml                       # promtail config
 └── README.md                                  # Документация проекта
 ```
+
+## Функционал
+
+## Требования
+
+Убедитесь, что следующие инструменты установлены:
+
+- [Go 1.22+](https://golang.org/dl/)
+- [Docker](https://www.docker.com/products/docker-desktop)
+- [Docker Compose](https://docs.docker.com/compose/install/)
