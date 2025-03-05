@@ -77,7 +77,7 @@
 
 <details>
   <summary>Настройте Dockerfile файл</summary>
-  
+
 ```bash  
 ENV NUTRIAI_PORT=8080
 
@@ -136,5 +136,57 @@ ENV LOG_FILE=./var/log/app.log
     ```bash
     make restart
     ```
+
+</details>
+
+
+## [Get recommendation](http://localhost:8080/api/recommendation)
+
+<details>
+  <summary>Пример тела запроса (json)</summary>
+
+```json
+{
+  "user_id": "123456789",
+  "user_name": "Евгений",
+  "user_data": {
+    "profile": {
+      "age": 39,
+      "gender": "male", // варианты: female male
+      "weight_kg": 140,
+      "height_cm": 186,
+      "fitness_level": "beginner" // варианты: beginner intermediate advanced
+    },
+    "goals": {
+      "primary_goal": "weight_loss", // варианты: weight_loss muscle_toning maintenance
+      "secondary_goal": "muscle_toning", // варианты: weight_loss muscle_toning maintenance
+      "target_weight_kg": 90,
+      "timeframe_weeks": 40
+    },
+    "preferences": {
+      "diet_type": "balanced", // варианты: vegan keto low_carb balanced
+      "allergies": ["орехи", "моллюски"], // варианты: перечисление
+      "preferred_cuisines": ["средиземноморский", "азиатский"], // варианты: перечисление
+      "workout_preferences": ["йога", "силовая тренировка", "кардио"]  // варианты: перечисление
+    },
+    "lifestyle": {
+      "activity_level": "moderate", // варианты: sedentary, light, moderate, active, very_active
+      "daily_calorie_intake": 1800,
+      "workout_availability_days_per_week": 4,
+      "average_sleep_hours": 7
+    },
+    "medical_restrictions": {
+      "has_injuries": true,
+      "injury_details": ["травма колена"], // варианты: перечисление
+      "chronic_conditions": ["none"]
+    }
+  },
+  "request_details": {
+    "service_type": "fitness_nutrition_recommendations",
+    "output_format": "weekly_plan", // варианты: daily_plan, weekly_plan, general_advice
+    "language": "ru" // варианты: ru, en
+  }
+}
+```
 
 </details>
