@@ -20,7 +20,7 @@
 │   │── controller/                            # Взаимодействие с внешним миром (точка входа в приложение)
 │   │   └── http/                              # HTTP-обработчики
 │   │       │── handler.go
-│   │       │── logging.go
+│   │       │── logging.go                     # Логирование запросов
 │   │       │── middleware.go            
 │   │       │── recommendation_handler.go      # Get recommendation
 │   │       │── record_metrics.go              # Metrics for prometheus
@@ -29,7 +29,7 @@
 │   │   │── config_entity.go 
 │   │   │── error_entity.go                    # модели данных Error                
 │   │   │── metric_entity.go                       
-│   │   │── recommendation_entity_test.go      # unit-тесты Бизнес-правила для модели данных UserRecommendationRequest
+│   │   │── recommendation_entity_test.go      # Unit-тесты Бизнес-правила для модели данных UserRecommendationRequest
 │   │   └── recommendation_entity.go           # модели данных Recommendation
 │   ├── infrastructure/                        # Взаимодействие с внешними системами (база данных, кеш и т.д.)
 │   │   │── gigachat/                          # gigachat
@@ -42,7 +42,7 @@
 │       │── metric/                           
 │       │   └── metric_usecase.go    
 │       └── recommendation/                    # бизнес-логика получения рекомендаций
-│           │── recommendation_usecase_test.go # unit-тесты usecase recommendation
+│           │── recommendation_usecase_test.go # Unit-тесты usecase recommendation
 │           └── recommendation_usecase.go      # usecase recommendation
 ├── pkg/
 │   ├── gigachat/                              # gigachat клиент
@@ -55,5 +55,8 @@
 ├── .gitignore                                 # Игнорируемые файлы для Git
 ├── go.mod                                     # Файл зависимостей Go
 ├── go.sum                                     # Контрольная сумма зависимостей
+├── loki-config.yaml                           # loki config
+├── prometheus.yml                             # prometheus config
+├── promtail-config.yaml                       # promtail config
 ├── README.md                                  # Документация проекта
 ```
