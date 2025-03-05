@@ -97,8 +97,6 @@
 <details>
   <summary>Открыть список команд Make</summary>
 
-### Сборка(make)
-
 - **Собрать Docker-образ приложения**:
 
     ```bash
