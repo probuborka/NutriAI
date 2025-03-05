@@ -140,7 +140,11 @@ ENV LOG_FILE=./var/log/app.log
 </details>
 
 
-## [Get recommendation](http://localhost:8080/api/recommendation)
+## Get recommendation
+
+```bash
+http://localhost:8080/api/recommendation
+ ```
 
 <details>
   <summary>Пример тела запроса (json)</summary>
