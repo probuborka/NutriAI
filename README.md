@@ -77,6 +77,7 @@
 
 <details>
   <summary>Настройте Dockerfile файл</summary>
+  
 ```bash  
 ENV NUTRIAI_PORT=8080
 
