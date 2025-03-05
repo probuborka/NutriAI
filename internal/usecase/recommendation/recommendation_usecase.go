@@ -45,7 +45,8 @@ func (s service) GetRecommendation(ctx context.Context, userRecommendationReques
 	if userRecommendationRequest.UserID == recommendationCache.UserID &&
 		userRecommendationRequest.UserName == recommendationCache.UserName &&
 		userRecommendationRequest.UserData.Profile == recommendationCache.UserData.Profile &&
-		userRecommendationRequest.UserData.Goals == recommendationCache.UserData.Goals {
+		userRecommendationRequest.UserData.Goals == recommendationCache.UserData.Goals &&
+		recommendationCache.Recommendations != "" {
 		return recommendationCache.Recommendations, nil
 	}
 
