@@ -66,6 +66,7 @@ const docTemplate = `{
             }
         },
         "entity.Goals": {
+            "description": "содержит цели пользователя",
             "type": "object",
             "required": [
                 "primary_goal",
@@ -80,7 +81,8 @@ const docTemplate = `{
                         "weight_loss",
                         "muscle_toning",
                         "maintenance"
-                    ]
+                    ],
+                    "example": "weight_loss"
                 },
                 "secondary_goal": {
                     "type": "string",
@@ -88,17 +90,21 @@ const docTemplate = `{
                         "weight_loss",
                         "muscle_toning",
                         "maintenance"
-                    ]
+                    ],
+                    "example": "muscle_toning"
                 },
                 "target_weight_kg": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 65
                 },
                 "timeframe_weeks": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 12
                 }
             }
         },
         "entity.Lifestyle": {
+            "description": "содержит информацию об образе жизни пользователя",
             "type": "object",
             "required": [
                 "activity_level",
@@ -115,20 +121,25 @@ const docTemplate = `{
                         "moderate",
                         "active",
                         "very_active"
-                    ]
+                    ],
+                    "example": "moderate"
                 },
                 "average_sleep_hours": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 7
                 },
                 "daily_calorie_intake": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 1800
                 },
                 "workout_availability_days_per_week": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 4
                 }
             }
         },
         "entity.MedicalRestrictions": {
+            "description": "содержит медицинские ограничения пользователя",
             "type": "object",
             "required": [
                 "chronic_conditions",
@@ -139,20 +150,28 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "none"
+                    ]
                 },
                 "has_injuries": {
-                    "type": "boolean"
+                    "type": "boolean",
+                    "example": true
                 },
                 "injury_details": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "lower_back_pain"
+                    ]
                 }
             }
         },
         "entity.Preferences": {
+            "description": "содержит предпочтения пользователя",
             "type": "object",
             "required": [
                 "allergies",
@@ -165,7 +184,11 @@ const docTemplate = `{
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "nuts",
+                        " shellfish"
+                    ]
                 },
                 "diet_type": {
                     "type": "string",
@@ -174,23 +197,34 @@ const docTemplate = `{
                         "keto",
                         "low_carb",
                         "balanced"
-                    ]
+                    ],
+                    "example": "balanced"
                 },
                 "preferred_cuisines": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "mediterranean",
+                        " asian"
+                    ]
                 },
                 "workout_preferences": {
                     "type": "array",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "example": [
+                        "yoga",
+                        " strength_training",
+                        " cardio"
+                    ]
                 }
             }
         },
         "entity.Profile": {
+            "description": "содержит профиль пользователя",
             "type": "object",
             "required": [
                 "age",
@@ -201,7 +235,8 @@ const docTemplate = `{
             ],
             "properties": {
                 "age": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 30
                 },
                 "fitness_level": {
                     "type": "string",
@@ -209,20 +244,24 @@ const docTemplate = `{
                         "beginner",
                         "intermediate",
                         "advanced"
-                    ]
+                    ],
+                    "example": "intermediate"
                 },
                 "gender": {
                     "type": "string",
                     "enum": [
                         "female",
                         "male"
-                    ]
+                    ],
+                    "example": "male"
                 },
                 "height_cm": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 165
                 },
                 "weight_kg": {
-                    "type": "integer"
+                    "type": "integer",
+                    "example": 70
                 }
             }
         },
@@ -235,6 +274,7 @@ const docTemplate = `{
             }
         },
         "entity.RequestDetails": {
+            "description": "содержит детали запроса",
             "type": "object",
             "required": [
                 "language",
@@ -247,7 +287,8 @@ const docTemplate = `{
                     "enum": [
                         "ru",
                         "en"
-                    ]
+                    ],
+                    "example": "ru"
                 },
                 "output_format": {
                     "type": "string",
@@ -255,17 +296,20 @@ const docTemplate = `{
                         "daily_plan",
                         "weekly_plan",
                         "general_advice"
-                    ]
+                    ],
+                    "example": "weekly_plan"
                 },
                 "service_type": {
                     "type": "string",
                     "enum": [
                         "fitness_nutrition_recommendations"
-                    ]
+                    ],
+                    "example": "fitness_nutrition_recommendations"
                 }
             }
         },
         "entity.UserData": {
+            "description": "содержит данные пользователя",
             "type": "object",
             "required": [
                 "goals",
@@ -293,6 +337,7 @@ const docTemplate = `{
             }
         },
         "entity.UserRecommendationRequest": {
+            "description": "Информация о пользователе",
             "type": "object",
             "required": [
                 "request_details",
@@ -311,10 +356,12 @@ const docTemplate = `{
                     "$ref": "#/definitions/entity.UserData"
                 },
                 "user_id": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "123456"
                 },
                 "user_name": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "jenya"
                 }
             }
         }

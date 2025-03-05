@@ -14,7 +14,7 @@ var (
 		UserData: UserData{
 			Profile: Profile{
 				Age:          30,
-				Gender:       "female",
+				Gender:       "male",
 				WeightKg:     70,
 				HeightCm:     165,
 				FitnessLevel: "intermediate",

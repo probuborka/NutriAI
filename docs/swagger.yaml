@@ -6,22 +6,27 @@ definitions:
         type: string
     type: object
   entity.Goals:
+    description: содержит цели пользователя
     properties:
       primary_goal:
         enum:
         - weight_loss
         - muscle_toning
         - maintenance
+        example: weight_loss
         type: string
       secondary_goal:
         enum:
         - weight_loss
         - muscle_toning
         - maintenance
+        example: muscle_toning
         type: string
       target_weight_kg:
+        example: 65
         type: integer
       timeframe_weeks:
+        example: 12
         type: integer
     required:
     - primary_goal
@@ -30,6 +35,7 @@ definitions:
     - timeframe_weeks
     type: object
   entity.Lifestyle:
+    description: содержит информацию об образе жизни пользователя
     properties:
       activity_level:
         enum:
@@ -38,12 +44,16 @@ definitions:
         - moderate
         - active
         - very_active
+        example: moderate
         type: string
       average_sleep_hours:
+        example: 7
         type: integer
       daily_calorie_intake:
+        example: 1800
         type: integer
       workout_availability_days_per_week:
+        example: 4
         type: integer
     required:
     - activity_level
@@ -52,14 +62,20 @@ definitions:
     - workout_availability_days_per_week
     type: object
   entity.MedicalRestrictions:
+    description: содержит медицинские ограничения пользователя
     properties:
       chronic_conditions:
+        example:
+        - none
         items:
           type: string
         type: array
       has_injuries:
+        example: true
         type: boolean
       injury_details:
+        example:
+        - lower_back_pain
         items:
           type: string
         type: array
@@ -68,8 +84,12 @@ definitions:
     - has_injuries
     type: object
   entity.Preferences:
+    description: содержит предпочтения пользователя
     properties:
       allergies:
+        example:
+        - nuts
+        - ' shellfish'
         items:
           type: string
         type: array
@@ -79,12 +99,20 @@ definitions:
         - keto
         - low_carb
         - balanced
+        example: balanced
         type: string
       preferred_cuisines:
+        example:
+        - mediterranean
+        - ' asian'
         items:
           type: string
         type: array
       workout_preferences:
+        example:
+        - yoga
+        - ' strength_training'
+        - ' cardio'
         items:
           type: string
         type: array
@@ -95,23 +123,29 @@ definitions:
     - workout_preferences
     type: object
   entity.Profile:
+    description: содержит профиль пользователя
     properties:
       age:
+        example: 30
         type: integer
       fitness_level:
         enum:
         - beginner
         - intermediate
         - advanced
+        example: intermediate
         type: string
       gender:
         enum:
         - female
         - male
+        example: male
         type: string
       height_cm:
+        example: 165
         type: integer
       weight_kg:
+        example: 70
         type: integer
     required:
     - age
@@ -126,21 +160,25 @@ definitions:
         type: string
     type: object
   entity.RequestDetails:
+    description: содержит детали запроса
     properties:
       language:
         enum:
         - ru
         - en
+        example: ru
         type: string
       output_format:
         enum:
         - daily_plan
         - weekly_plan
         - general_advice
+        example: weekly_plan
         type: string
       service_type:
         enum:
         - fitness_nutrition_recommendations
+        example: fitness_nutrition_recommendations
         type: string
     required:
     - language
@@ -148,6 +186,7 @@ definitions:
     - service_type
     type: object
   entity.UserData:
+    description: содержит данные пользователя
     properties:
       goals:
         $ref: '#/definitions/entity.Goals'
@@ -167,6 +206,7 @@ definitions:
     - profile
     type: object
   entity.UserRecommendationRequest:
+    description: Информация о пользователе
     properties:
       recommendations:
         type: string
@@ -175,8 +215,10 @@ definitions:
       user_data:
         $ref: '#/definitions/entity.UserData'
       user_id:
+        example: "123456"
         type: string
       user_name:
+        example: jenya
         type: string
     required:
     - request_details

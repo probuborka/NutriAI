@@ -18,7 +18,7 @@ var userRecommendationRequest = entity.UserRecommendationRequest{
 	UserData: entity.UserData{
 		Profile: entity.Profile{
 			Age:          30,
-			Gender:       "female",
+			Gender:       "male",
 			WeightKg:     70,
 			HeightCm:     165,
 			FitnessLevel: "intermediate",

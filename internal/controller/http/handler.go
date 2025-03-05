@@ -26,7 +26,7 @@ func New(recommendation serviceRecommendation, metric metric, log *logrus.Logger
 func (h handler) Init() http.Handler {
 	r := http.NewServeMux()
 
-	//Swagger UI
+	//swagger UI
 	r.Handle("/swagger/", httpSwagger.WrapHandler)
 
 	//metrics
