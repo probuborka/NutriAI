@@ -14,7 +14,7 @@ const (
 
 var userRecommendationRequest = entity.UserRecommendationRequest{
 	UserID:   "12345",
-	UserName: "jenya",
+	UserName: "Евгений",
 	UserData: entity.UserData{
 		Profile: entity.Profile{
 			Age:          30,

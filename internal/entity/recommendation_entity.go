@@ -49,7 +49,7 @@ type Preferences struct {
 	DietType           string   `json:"diet_type" example:"balanced" validate:"required,oneof=vegan keto low_carb balanced"`
 	Allergies          []string `json:"allergies" example:"nuts,shellfish" validate:"dive,required"`
 	PreferredCuisines  []string `json:"preferred_cuisines" example:"mediterranean,asian" validate:"dive,required"`
-	WorkoutPreferences []string `json:"workout_preferences" example:"yoga,strength_training, cardio" validate:"dive,required"`
+	WorkoutPreferences []string `json:"workout_preferences" example:"yoga,strength_training,cardio" validate:"dive,required"`
 }
 
 // Lifestyle содержит информацию об образе жизни пользователя
