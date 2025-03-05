@@ -75,6 +75,21 @@
 
 ## Сборка
 
+<details>
+  <summary>Настройте Dockerfile файл</summary>
+```bash  
+ENV NUTRIAI_PORT=8080
+
+ENV API_KEY=<your_key_gigachat>
+
+ENV REDIS_HOST=redis
+
+ENV REDIS_PORT=6379
+
+ENV LOG_FILE=./var/log/app.log
+```
+ </details>
+
 1. Клонируйте репозиторий:
 
     ```bash
