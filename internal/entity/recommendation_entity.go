@@ -81,10 +81,6 @@ func (u UserRecommendationRequest) Validate() error {
 	validate := validator.New()
 	err := validate.Struct(u)
 	if err != nil {
-		// Вывод ошибок валидации
-		// for _, err := range err.(validator.ValidationErrors) {
-		// 	fmt.Println(err.Namespace(), err.Tag(), err.Param())
-		// }
 		return err
 	}
 
