@@ -23,10 +23,10 @@ definitions:
         example: muscle_toning
         type: string
       target_weight_kg:
-        example: 65
+        example: 90
         type: integer
       timeframe_weeks:
-        example: 12
+        example: 40
         type: integer
     required:
     - primary_goal
@@ -75,7 +75,7 @@ definitions:
         type: boolean
       injury_details:
         example:
-        - lower_back_pain
+        - травма колена
         items:
           type: string
         type: array
@@ -88,8 +88,8 @@ definitions:
     properties:
       allergies:
         example:
-        - nuts
-        - ' shellfish'
+        - орехи
+        - моллюски
         items:
           type: string
         type: array
@@ -103,16 +103,15 @@ definitions:
         type: string
       preferred_cuisines:
         example:
-        - mediterranean
-        - ' asian'
+        - средиземноморский
+        - азиатский
         items:
           type: string
         type: array
       workout_preferences:
         example:
-        - yoga
-        - ' strength_training'
-        - ' cardio'
+        - силовая тренировка
+        - кардио
         items:
           type: string
         type: array
@@ -126,14 +125,14 @@ definitions:
     description: содержит профиль пользователя
     properties:
       age:
-        example: 30
+        example: 39
         type: integer
       fitness_level:
         enum:
         - beginner
         - intermediate
         - advanced
-        example: intermediate
+        example: beginner
         type: string
       gender:
         enum:
@@ -142,10 +141,10 @@ definitions:
         example: male
         type: string
       height_cm:
-        example: 165
+        example: 186
         type: integer
       weight_kg:
-        example: 70
+        example: 140
         type: integer
     required:
     - age
@@ -215,10 +214,10 @@ definitions:
       user_data:
         $ref: '#/definitions/entity.UserData'
       user_id:
-        example: "123456"
+        example: "123456789"
         type: string
       user_name:
-        example: jenya
+        example: Евгений
         type: string
     required:
     - request_details

@@ -7,8 +7,8 @@ import (
 // UserRecommendationRequest представляет модель пользователя
 // @Description Информация о пользователе
 type UserRecommendationRequest struct {
-	UserID          string         `json:"user_id" example:"123456" validate:"required"`
-	UserName        string         `json:"user_name" example:"jenya" validate:"required"`
+	UserID          string         `json:"user_id" example:"123456789" validate:"required"`
+	UserName        string         `json:"user_name" example:"Евгений" validate:"required"`
 	UserData        UserData       `json:"user_data" validate:"required"`
 	RequestDetails  RequestDetails `json:"request_details" validate:"required"`
 	Recommendations string         `json:"recommendations"`
@@ -27,11 +27,11 @@ type UserData struct {
 // Profile содержит профиль пользователя
 // @Description содержит профиль пользователя
 type Profile struct {
-	Age          int    `json:"age" example:"30" validate:"required,gt=0,lt=150"`
+	Age          int    `json:"age" example:"39" validate:"required,gt=0,lt=150"`
 	Gender       string `json:"gender" example:"male" validate:"required,oneof=female male"`
-	WeightKg     int    `json:"weight_kg" example:"70" validate:"required,gt=0,lt=300"`
-	HeightCm     int    `json:"height_cm" example:"165" validate:"required,gt=0,lt=300"`
-	FitnessLevel string `json:"fitness_level" example:"intermediate" validate:"required,oneof=beginner intermediate advanced"`
+	WeightKg     int    `json:"weight_kg" example:"140" validate:"required,gt=0,lt=300"`
+	HeightCm     int    `json:"height_cm" example:"186" validate:"required,gt=0,lt=300"`
+	FitnessLevel string `json:"fitness_level" example:"beginner" validate:"required,oneof=beginner intermediate advanced"`
 }
 
 // Goals содержит цели пользователя
@@ -39,17 +39,17 @@ type Profile struct {
 type Goals struct {
 	PrimaryGoal    string `json:"primary_goal" example:"weight_loss" validate:"required,oneof=weight_loss muscle_toning maintenance"`
 	SecondaryGoal  string `json:"secondary_goal" example:"muscle_toning" validate:"required,oneof=weight_loss muscle_toning maintenance"`
-	TargetWeightKg int    `json:"target_weight_kg" example:"65" validate:"required,gt=0,lt=300"`
-	TimeframeWeeks int    `json:"timeframe_weeks" example:"12" validate:"required,gt=0,lt=52"`
+	TargetWeightKg int    `json:"target_weight_kg" example:"90" validate:"required,gt=0,lt=300"`
+	TimeframeWeeks int    `json:"timeframe_weeks" example:"40" validate:"required,gt=0,lt=52"`
 }
 
 // Preferences содержит предпочтения пользователя
 // @Description содержит предпочтения пользователя
 type Preferences struct {
 	DietType           string   `json:"diet_type" example:"balanced" validate:"required,oneof=vegan keto low_carb balanced"`
-	Allergies          []string `json:"allergies" example:"nuts,shellfish" validate:"dive,required"`
-	PreferredCuisines  []string `json:"preferred_cuisines" example:"mediterranean,asian" validate:"dive,required"`
-	WorkoutPreferences []string `json:"workout_preferences" example:"yoga,strength_training,cardio" validate:"dive,required"`
+	Allergies          []string `json:"allergies" example:"орехи,моллюски" validate:"dive,required"`
+	PreferredCuisines  []string `json:"preferred_cuisines" example:"средиземноморский,азиатский" validate:"dive,required"`
+	WorkoutPreferences []string `json:"workout_preferences" example:"силовая тренировка,кардио" validate:"dive,required"`
 }
 
 // Lifestyle содержит информацию об образе жизни пользователя
@@ -65,7 +65,7 @@ type Lifestyle struct {
 // @Description содержит медицинские ограничения пользователя
 type MedicalRestrictions struct {
 	HasInjuries       bool     `json:"has_injuries" example:"true"  validate:"required"`
-	InjuryDetails     []string `json:"injury_details" example:"lower_back_pain"  validate:"dive,required_with=HasInjuries"`
+	InjuryDetails     []string `json:"injury_details" example:"травма колена"  validate:"dive,required_with=HasInjuries"`
 	ChronicConditions []string `json:"chronic_conditions" example:"none"  validate:"dive,required"`
 }
 

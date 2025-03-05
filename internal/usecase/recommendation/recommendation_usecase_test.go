@@ -23,27 +23,27 @@ func TestGetRecommendation(t *testing.T) {
 	ctx := context.Background()
 
 	validUserRecommendationRequest := entity.UserRecommendationRequest{
-		UserID:   "user123",
-		UserName: "jenya",
+		UserID:   "123456789",
+		UserName: "Евгений",
 		UserData: entity.UserData{
 			Profile: entity.Profile{
-				Age:          30,
-				Gender:       "female",
-				WeightKg:     70,
-				HeightCm:     165,
-				FitnessLevel: "intermediate",
+				Age:          39,
+				Gender:       "male",
+				WeightKg:     140,
+				HeightCm:     186,
+				FitnessLevel: "beginner",
 			},
 			Goals: entity.Goals{
 				PrimaryGoal:    "weight_loss",
 				SecondaryGoal:  "muscle_toning",
-				TargetWeightKg: 65,
-				TimeframeWeeks: 12,
+				TargetWeightKg: 90,
+				TimeframeWeeks: 40,
 			},
 			Preferences: entity.Preferences{
 				DietType:           "balanced",
-				Allergies:          []string{"nuts"},
-				PreferredCuisines:  []string{"mediterranean"},
-				WorkoutPreferences: []string{"yoga"},
+				Allergies:          []string{"орехи", "моллюски"},
+				PreferredCuisines:  []string{"средиземноморский", "азиатский"},
+				WorkoutPreferences: []string{"йога", "силовая тренировка", "кардио"},
 			},
 			Lifestyle: entity.Lifestyle{
 				ActivityLevel:           "moderate",
@@ -53,7 +53,7 @@ func TestGetRecommendation(t *testing.T) {
 			},
 			MedicalRestrictions: entity.MedicalRestrictions{
 				HasInjuries:       true,
-				InjuryDetails:     []string{"lower_back_pain"},
+				InjuryDetails:     []string{"травма колена"},
 				ChronicConditions: []string{"none"},
 			},
 		},

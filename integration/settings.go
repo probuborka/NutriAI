@@ -13,27 +13,27 @@ const (
 )
 
 var userRecommendationRequest = entity.UserRecommendationRequest{
-	UserID:   "12345",
+	UserID:   "123456789",
 	UserName: "Евгений",
 	UserData: entity.UserData{
 		Profile: entity.Profile{
-			Age:          30,
+			Age:          39,
 			Gender:       "male",
-			WeightKg:     70,
-			HeightCm:     165,
-			FitnessLevel: "intermediate",
+			WeightKg:     140,
+			HeightCm:     186,
+			FitnessLevel: "beginner",
 		},
 		Goals: entity.Goals{
 			PrimaryGoal:    "weight_loss",
 			SecondaryGoal:  "muscle_toning",
-			TargetWeightKg: 65,
-			TimeframeWeeks: 12,
+			TargetWeightKg: 90,
+			TimeframeWeeks: 40,
 		},
 		Preferences: entity.Preferences{
 			DietType:           "balanced",
-			Allergies:          []string{"nuts"},
-			PreferredCuisines:  []string{"mediterranean"},
-			WorkoutPreferences: []string{"yoga"},
+			Allergies:          []string{"орехи", "моллюски"},
+			PreferredCuisines:  []string{"средиземноморский", "азиатский"},
+			WorkoutPreferences: []string{"йога", "силовая тренировка", "кардио"},
 		},
 		Lifestyle: entity.Lifestyle{
 			ActivityLevel:           "moderate",
@@ -43,7 +43,7 @@ var userRecommendationRequest = entity.UserRecommendationRequest{
 		},
 		MedicalRestrictions: entity.MedicalRestrictions{
 			HasInjuries:       true,
-			InjuryDetails:     []string{"lower_back_pain"},
+			InjuryDetails:     []string{"травма колена"},
 			ChronicConditions: []string{"none"},
 		},
 	},

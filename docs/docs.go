@@ -95,11 +95,11 @@ const docTemplate = `{
                 },
                 "target_weight_kg": {
                     "type": "integer",
-                    "example": 65
+                    "example": 90
                 },
                 "timeframe_weeks": {
                     "type": "integer",
-                    "example": 12
+                    "example": 40
                 }
             }
         },
@@ -165,7 +165,7 @@ const docTemplate = `{
                         "type": "string"
                     },
                     "example": [
-                        "lower_back_pain"
+                        "травма колена"
                     ]
                 }
             }
@@ -186,8 +186,8 @@ const docTemplate = `{
                         "type": "string"
                     },
                     "example": [
-                        "nuts",
-                        " shellfish"
+                        "орехи",
+                        "моллюски"
                     ]
                 },
                 "diet_type": {
@@ -206,8 +206,8 @@ const docTemplate = `{
                         "type": "string"
                     },
                     "example": [
-                        "mediterranean",
-                        " asian"
+                        "средиземноморский",
+                        "азиатский"
                     ]
                 },
                 "workout_preferences": {
@@ -216,9 +216,8 @@ const docTemplate = `{
                         "type": "string"
                     },
                     "example": [
-                        "yoga",
-                        " strength_training",
-                        " cardio"
+                        "силовая тренировка",
+                        "кардио"
                     ]
                 }
             }
@@ -236,7 +235,7 @@ const docTemplate = `{
             "properties": {
                 "age": {
                     "type": "integer",
-                    "example": 30
+                    "example": 39
                 },
                 "fitness_level": {
                     "type": "string",
@@ -245,7 +244,7 @@ const docTemplate = `{
                         "intermediate",
                         "advanced"
                     ],
-                    "example": "intermediate"
+                    "example": "beginner"
                 },
                 "gender": {
                     "type": "string",
@@ -257,11 +256,11 @@ const docTemplate = `{
                 },
                 "height_cm": {
                     "type": "integer",
-                    "example": 165
+                    "example": 186
                 },
                 "weight_kg": {
                     "type": "integer",
-                    "example": 70
+                    "example": 140
                 }
             }
         },
@@ -357,11 +356,11 @@ const docTemplate = `{
                 },
                 "user_id": {
                     "type": "string",
-                    "example": "123456"
+                    "example": "123456789"
                 },
                 "user_name": {
                     "type": "string",
-                    "example": "jenya"
+                    "example": "Евгений"
                 }
             }
         }
