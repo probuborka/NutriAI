@@ -140,7 +140,7 @@ ENV LOG_FILE=./var/log/app.log
 </details>
 
 
-## Get recommendation
+## GET /api/recommendation
 
 ```bash
 http://localhost:8080/api/recommendation
