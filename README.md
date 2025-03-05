@@ -70,3 +70,21 @@
 - [Go 1.22+](https://golang.org/dl/)
 - [Docker](https://www.docker.com/products/docker-desktop)
 - [Docker Compose](https://docs.docker.com/compose/install/)
+
+## Сборка
+
+1. Клонируйте репозиторий:
+
+    ```bash
+    git clone git@github.com:probuborka/NutriAI.git
+    ```
+2. Задайте переменные окружения
+
+    ```bash
+    export  NUTRIAI_PORT=8080
+    export  API_KEY=ZDMxOTdmNjUtMmY3MS00MTdjLThkY2YtODljY2RiZGI1ZDZkOjVlMmM3OWYxLTUwNDQtNDRkNi05NTY1LTA3NzBlNTkyMWNmMQ== // пример 😉
+    export  REDIS_HOST=redis
+    export  REDIS_PORT=6379
+    export  LOG_FILE=./var/log/app.log
+    ```
+
