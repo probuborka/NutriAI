@@ -1,0 +1,316 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "Микросервис предоставляет пользователям персонализированные рекомендации по питанию и тренировкам.",
+        "title": "NutriAI",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api",
+    "paths": {
+        "/api/recommendation": {
+            "get": {
+                "description": "Возвращает персонализированные рекомендации по питанию и тренировкам",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Рекомендации"
+                ],
+                "summary": "Получить рекомендации",
+                "parameters": [
+                    {
+                        "description": "Данные пользователя",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/entity.UserRecommendationRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/entity.RecommendationResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/entity.Error"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "entity.Error": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.Goals": {
+            "type": "object",
+            "required": [
+                "primary_goal",
+                "secondary_goal",
+                "target_weight_kg",
+                "timeframe_weeks"
+            ],
+            "properties": {
+                "primary_goal": {
+                    "type": "string",
+                    "enum": [
+                        "weight_loss",
+                        "muscle_toning",
+                        "maintenance"
+                    ]
+                },
+                "secondary_goal": {
+                    "type": "string",
+                    "enum": [
+                        "weight_loss",
+                        "muscle_toning",
+                        "maintenance"
+                    ]
+                },
+                "target_weight_kg": {
+                    "type": "integer"
+                },
+                "timeframe_weeks": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.Lifestyle": {
+            "type": "object",
+            "required": [
+                "activity_level",
+                "average_sleep_hours",
+                "daily_calorie_intake",
+                "workout_availability_days_per_week"
+            ],
+            "properties": {
+                "activity_level": {
+                    "type": "string",
+                    "enum": [
+                        "sedentary",
+                        "light",
+                        "moderate",
+                        "active",
+                        "very_active"
+                    ]
+                },
+                "average_sleep_hours": {
+                    "type": "integer"
+                },
+                "daily_calorie_intake": {
+                    "type": "integer"
+                },
+                "workout_availability_days_per_week": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.MedicalRestrictions": {
+            "type": "object",
+            "required": [
+                "chronic_conditions",
+                "has_injuries"
+            ],
+            "properties": {
+                "chronic_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "has_injuries": {
+                    "type": "boolean"
+                },
+                "injury_details": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "entity.Preferences": {
+            "type": "object",
+            "required": [
+                "allergies",
+                "diet_type",
+                "preferred_cuisines",
+                "workout_preferences"
+            ],
+            "properties": {
+                "allergies": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "diet_type": {
+                    "type": "string",
+                    "enum": [
+                        "vegan",
+                        "keto",
+                        "low_carb",
+                        "balanced"
+                    ]
+                },
+                "preferred_cuisines": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "workout_preferences": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "entity.Profile": {
+            "type": "object",
+            "required": [
+                "age",
+                "fitness_level",
+                "gender",
+                "height_cm",
+                "weight_kg"
+            ],
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "fitness_level": {
+                    "type": "string",
+                    "enum": [
+                        "beginner",
+                        "intermediate",
+                        "advanced"
+                    ]
+                },
+                "gender": {
+                    "type": "string",
+                    "enum": [
+                        "female",
+                        "male"
+                    ]
+                },
+                "height_cm": {
+                    "type": "integer"
+                },
+                "weight_kg": {
+                    "type": "integer"
+                }
+            }
+        },
+        "entity.RecommendationResponse": {
+            "type": "object",
+            "properties": {
+                "recommendations": {
+                    "type": "string"
+                }
+            }
+        },
+        "entity.RequestDetails": {
+            "type": "object",
+            "required": [
+                "language",
+                "output_format",
+                "service_type"
+            ],
+            "properties": {
+                "language": {
+                    "type": "string",
+                    "enum": [
+                        "ru",
+                        "en"
+                    ]
+                },
+                "output_format": {
+                    "type": "string",
+                    "enum": [
+                        "daily_plan",
+                        "weekly_plan",
+                        "general_advice"
+                    ]
+                },
+                "service_type": {
+                    "type": "string",
+                    "enum": [
+                        "fitness_nutrition_recommendations"
+                    ]
+                }
+            }
+        },
+        "entity.UserData": {
+            "type": "object",
+            "required": [
+                "goals",
+                "lifestyle",
+                "medical_restrictions",
+                "preferences",
+                "profile"
+            ],
+            "properties": {
+                "goals": {
+                    "$ref": "#/definitions/entity.Goals"
+                },
+                "lifestyle": {
+                    "$ref": "#/definitions/entity.Lifestyle"
+                },
+                "medical_restrictions": {
+                    "$ref": "#/definitions/entity.MedicalRestrictions"
+                },
+                "preferences": {
+                    "$ref": "#/definitions/entity.Preferences"
+                },
+                "profile": {
+                    "$ref": "#/definitions/entity.Profile"
+                }
+            }
+        },
+        "entity.UserRecommendationRequest": {
+            "type": "object",
+            "required": [
+                "request_details",
+                "user_data",
+                "user_id",
+                "user_name"
+            ],
+            "properties": {
+                "recommendations": {
+                    "type": "string"
+                },
+                "request_details": {
+                    "$ref": "#/definitions/entity.RequestDetails"
+                },
+                "user_data": {
+                    "$ref": "#/definitions/entity.UserData"
+                },
+                "user_id": {
+                    "type": "string"
+                },
+                "user_name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

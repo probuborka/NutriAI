@@ -3,8 +3,10 @@ package http
 import (
 	"net/http"
 
+	_ "github.com/probuborka/NutriAI/docs"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/sirupsen/logrus"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 type handler struct {
@@ -23,6 +25,9 @@ func New(recommendation serviceRecommendation, metric metric, log *logrus.Logger
 
 func (h handler) Init() http.Handler {
 	r := http.NewServeMux()
+
+	//Swagger UI
+	r.Handle("/swagger/", httpSwagger.WrapHandler)
 
 	//metrics
 	r.Handle("/metrics", promhttp.Handler())

@@ -14,6 +14,15 @@ type serviceRecommendation interface {
 	GetRecommendation(ctx context.Context, userRecommendationRequest entity.UserRecommendationRequest) (string, error)
 }
 
+// @Summary Получить рекомендации
+// @Description Возвращает персонализированные рекомендации по питанию и тренировкам
+// @Tags Рекомендации
+// @Accept json
+// @Produce json
+// @Param request body entity.UserRecommendationRequest true "Данные пользователя"
+// @Success 201 {object} entity.RecommendationResponse
+// @Failure 400 {object} entity.Error
+// @Router /api/recommendation [get]
 func (h handler) getRecommendation(w http.ResponseWriter, r *http.Request) {
 	//
 	requestID, ok := r.Context().Value(requestIDKey).(string)

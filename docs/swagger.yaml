@@ -1,0 +1,221 @@
+basePath: /api
+definitions:
+  entity.Error:
+    properties:
+      error:
+        type: string
+    type: object
+  entity.Goals:
+    properties:
+      primary_goal:
+        enum:
+        - weight_loss
+        - muscle_toning
+        - maintenance
+        type: string
+      secondary_goal:
+        enum:
+        - weight_loss
+        - muscle_toning
+        - maintenance
+        type: string
+      target_weight_kg:
+        type: integer
+      timeframe_weeks:
+        type: integer
+    required:
+    - primary_goal
+    - secondary_goal
+    - target_weight_kg
+    - timeframe_weeks
+    type: object
+  entity.Lifestyle:
+    properties:
+      activity_level:
+        enum:
+        - sedentary
+        - light
+        - moderate
+        - active
+        - very_active
+        type: string
+      average_sleep_hours:
+        type: integer
+      daily_calorie_intake:
+        type: integer
+      workout_availability_days_per_week:
+        type: integer
+    required:
+    - activity_level
+    - average_sleep_hours
+    - daily_calorie_intake
+    - workout_availability_days_per_week
+    type: object
+  entity.MedicalRestrictions:
+    properties:
+      chronic_conditions:
+        items:
+          type: string
+        type: array
+      has_injuries:
+        type: boolean
+      injury_details:
+        items:
+          type: string
+        type: array
+    required:
+    - chronic_conditions
+    - has_injuries
+    type: object
+  entity.Preferences:
+    properties:
+      allergies:
+        items:
+          type: string
+        type: array
+      diet_type:
+        enum:
+        - vegan
+        - keto
+        - low_carb
+        - balanced
+        type: string
+      preferred_cuisines:
+        items:
+          type: string
+        type: array
+      workout_preferences:
+        items:
+          type: string
+        type: array
+    required:
+    - allergies
+    - diet_type
+    - preferred_cuisines
+    - workout_preferences
+    type: object
+  entity.Profile:
+    properties:
+      age:
+        type: integer
+      fitness_level:
+        enum:
+        - beginner
+        - intermediate
+        - advanced
+        type: string
+      gender:
+        enum:
+        - female
+        - male
+        type: string
+      height_cm:
+        type: integer
+      weight_kg:
+        type: integer
+    required:
+    - age
+    - fitness_level
+    - gender
+    - height_cm
+    - weight_kg
+    type: object
+  entity.RecommendationResponse:
+    properties:
+      recommendations:
+        type: string
+    type: object
+  entity.RequestDetails:
+    properties:
+      language:
+        enum:
+        - ru
+        - en
+        type: string
+      output_format:
+        enum:
+        - daily_plan
+        - weekly_plan
+        - general_advice
+        type: string
+      service_type:
+        enum:
+        - fitness_nutrition_recommendations
+        type: string
+    required:
+    - language
+    - output_format
+    - service_type
+    type: object
+  entity.UserData:
+    properties:
+      goals:
+        $ref: '#/definitions/entity.Goals'
+      lifestyle:
+        $ref: '#/definitions/entity.Lifestyle'
+      medical_restrictions:
+        $ref: '#/definitions/entity.MedicalRestrictions'
+      preferences:
+        $ref: '#/definitions/entity.Preferences'
+      profile:
+        $ref: '#/definitions/entity.Profile'
+    required:
+    - goals
+    - lifestyle
+    - medical_restrictions
+    - preferences
+    - profile
+    type: object
+  entity.UserRecommendationRequest:
+    properties:
+      recommendations:
+        type: string
+      request_details:
+        $ref: '#/definitions/entity.RequestDetails'
+      user_data:
+        $ref: '#/definitions/entity.UserData'
+      user_id:
+        type: string
+      user_name:
+        type: string
+    required:
+    - request_details
+    - user_data
+    - user_id
+    - user_name
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Микросервис предоставляет пользователям персонализированные рекомендации
+    по питанию и тренировкам.
+  title: NutriAI
+  version: "1.0"
+paths:
+  /api/recommendation:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает персонализированные рекомендации по питанию и тренировкам
+      parameters:
+      - description: Данные пользователя
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/entity.UserRecommendationRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/entity.RecommendationResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/entity.Error'
+      summary: Получить рекомендации
+      tags:
+      - Рекомендации
+swagger: "2.0"
