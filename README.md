@@ -58,5 +58,5 @@
 ├── loki-config.yaml                           # loki config
 ├── prometheus.yml                             # prometheus config
 ├── promtail-config.yaml                       # promtail config
-├── README.md                                  # Документация проекта
+└── README.md                                  # Документация проекта
 ```
