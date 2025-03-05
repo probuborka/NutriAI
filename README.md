@@ -64,7 +64,7 @@
 
 ## Функционал
 
-# Требования
+### Требования
 
 Убедитесь, что следующие инструменты установлены:
 
@@ -205,3 +205,29 @@ http://localhost:8080/api/recommendation
 ```
 
 </details>
+
+## Дополнительно
+
+### Swagger
+
+```bash
+http://localhost:8080/swagger/index.html
+ ```
+
+### Grafana
+
+```bash
+http://localhost:3000/login
+ ```
+
+### Promtail
+
+```bash
+http://localhost:9080/targets
+ ```
+
+### Prometheus
+
+```bash
+http://localhost:9080/targets
+ ```
