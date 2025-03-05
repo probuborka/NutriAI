@@ -1,7 +1,7 @@
 # See: https://www.gnu.org/software/make/
 
 # Переменные.
-DOCKER_COMPOSE := docker compose
+DOCKER_COMPOSE := docker-compose
 
 # Сборка Docker-образа.
 .PHONY: build run-local
