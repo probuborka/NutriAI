@@ -1,0 +1,53 @@
+.
+├── cmd
+│   └── main.go
+├── docs
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
+├── integration
+│   ├── gigachat_test.go
+│   ├── redis_test.go
+│   └── settings.go
+├── internal
+│   ├── app
+│   │   └── app.go
+│   ├── config
+│   │   └── config.go
+│   ├── controller
+│   │   └── http
+│   ├── entity
+│   │   ├── config_entity.go
+│   │   ├── error_entity.go
+│   │   ├── metric_entity.go
+│   │   ├── recommendation_entity.go
+│   │   └── recommendation_entity_test.go
+│   ├── infrastructure
+│   │   ├── gigachat
+│   │   ├── prometheus
+│   │   └── redis
+│   └── usecase
+│       ├── metric
+│       └── recommendation
+├── pkg
+│   ├── gigachat
+│   │   ├── access_token.go
+│   │   ├── generate_text.go
+│   │   └── gigachat.go
+│   └── route
+│       └── route.go
+├── var
+│   └── log
+│       └── app.log
+├── docker-compose.yml
+├── Dockerfile
+├── go.mod
+├── go.sum
+├── loki-config.yaml
+├── Makefile
+├── prometheus.yml
+├── promtail-config.yaml
+├── README.md
+└── structure.txt
+
+21 directories, 29 files

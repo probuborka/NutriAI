@@ -8,6 +8,9 @@ NutriAI — это интеллектуальный микросервис, ко
 ├── cmd/
 │   └── main.go                                # Точка входа в приложение
 ├── docs/                                      # Swagger
+│   ├── docs.go
+│   ├── swagger.json
+│   └── swagger.yaml
 ├── integration/                               # Интеграционные тесты
 │   │── gigachat_test.go                       # GigaChat тест
 │   │── redis_test.go                          # Redis тест
