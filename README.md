@@ -6,7 +6,7 @@ NutriAI — это интеллектуальный микросервис, ко
 ```plaintext
 .
 ├── cmd/
-│   └── main.go                                # Точка входа в приложение
+│   └─── main.go                                # Точка входа в приложение
 ├── docs/                                      # Swagger
 │   ├── docs.go
 │   ├── swagger.json
